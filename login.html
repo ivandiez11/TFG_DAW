@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login</title>
+    <link rel="stylesheet" href="estilos/login.css">
+</head>
+<body>
+    <main class="card" role="main" aria-labelledby="loginTitle">
+        <h1 id="loginTitle">Iniciar sesión</h1>
+        <p class="lead">Introduce tus credenciales para acceder a tu cuenta.</p>
+
+        <form id="loginForm" action="/login" method="post" novalidate>
+            <div>
+                <label for="email">Correo electrónico</label>
+                <input id="email" name="email" type="email" autocomplete="email" required
+                             placeholder="tucorreo@ejemplo.com" />
+            </div>
+
+            <div>
+                <label for="password">Contraseña</label>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input id="password" name="password" type="password" autocomplete="current-password" required
+                                 placeholder="••••••••" style="flex:1" minlength="6" />
+                    <button type="button" class="show-toggle" aria-pressed="false" id="togglePwd" title="Mostrar contraseña">Mostrar</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <a class="link" href="#" onclick="alert('Funcionalidad de recuperar contraseña no implementada');return false;">¿Olvidaste la contraseña?</a>
+            </div>
+
+            <!-- Área donde mostramos el resultado de la validación -->
+            <div id="validationResult" class="small" role="status" aria-live="polite" style="min-height:1.2em"></div>
+
+            <div>
+                <button type="submit">Entrar</button>
+            </div>
+
+            <p class="small">¿No tienes cuenta? <a class="link" href="registro.html">Regístrate</a></p>
+        </form>
+    </main>
+
+    <script>
+        // Comportamiento mínimo: toggle de visibilidad y validación simple con feedback visible
+        (function(){
+            var form = document.getElementById('loginForm');
+            var pwd = document.getElementById('password');
+            var toggle = document.getElementById('togglePwd');
+            var result = document.getElementById('validationResult');
+
+            // Validación: al menos una mayúscula y un número
+            var pwdRule = /(?=.*[A-Z])(?=.*\d)/;
+
+            function showMessage(message, ok) {
+                result.textContent = message || '';
+                result.style.color = ok ? '#047857' : '#b91c1c'; // verde oscuro / rojo
+            }
+
+            function validatePwd() {
+                var value = pwd.value || '';
+                if (value.length === 0) {
+                    pwd.setCustomValidity('');
+                    showMessage(''); // dejar el área vacía cuando no hay input
+                    return;
+                }
+                if (!pwdRule.test(value)) {
+                    pwd.setCustomValidity('La contraseña debe contener al menos una mayúscula y un número.');
+                    showMessage('La contraseña debe contener al menos una mayúscula y un número.', false);
+                } else {
+                    pwd.setCustomValidity('');
+                    showMessage('Contraseña válida.', true);
+                }
+            }
+
+            // Validar mientras el usuario escribe para feedback inmediato
+            pwd.addEventListener('input', function(){
+                validatePwd();
+            });
+
+            toggle.addEventListener('click', function(){
+                var isHidden = pwd.type === 'password';
+                pwd.type = isHidden ? 'text' : 'password';
+                toggle.textContent = isHidden ? 'Ocultar' : 'Mostrar';
+                toggle.setAttribute('aria-pressed', String(isHidden));
+            });
+
+            function gatherInvalidMessages(formEl) {
+                var messages = [];
+                Array.prototype.forEach.call(formEl.elements, function(el){
+                    if (!el.willValidate) return;
+                    if (!el.checkValidity()) {
+                        var label = formEl.querySelector('label[for="'+el.id+'"]');
+                        var name = label ? label.textContent.trim() : (el.name || el.id);
+                        messages.push(name + ': ' + el.validationMessage);
+                    }
+                });
+                return messages;
+            }
+
+            form.addEventListener('submit', function(e){
+                // forzar validación personalizada antes de comprobar
+                validatePwd();
+
+                // validación sencilla y accesible
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    var msgs = gatherInvalidMessages(form);
+                    showMessage(msgs.length ? msgs.join(' — ') : 'Formulario inválido.', false);
+                    var firstInvalid = form.querySelector(':invalid');
+                    if (firstInvalid) firstInvalid.focus();
+                    return;
+                }
+
+                // Formulario válido -> mostrar resultado (en desarrollo evitamos envío real)
+                e.preventDefault();
+                showMessage('Datos válidos. Envío simulado completado.', true);
+                // Si quieres permitir envío real, quita el preventDefault anterior.
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="estilos/registro.css">
+</head>
+<body>
+    <main class="card" aria-labelledby="titulo">
+        <h1 id="titulo">Crear cuenta</h1>
+        <p class="lead">Rellena los datos para crear tu cuenta.</p>
+
+        <form id="registerForm" novalidate>
+            <div class="row">
+                <div>
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" name="nombre" type="text" required autocomplete="name" />
+                    <div class="error" id="err-nombre">Introduce tu nombre.</div>
+                </div>
+
+                <div>
+                    <label for="apellido">Apellido</label>
+                    <input id="apellido" name="apellido" type="text" required autocomplete="family-name" />
+                    <div class="error" id="err-apellido">Introduce tu apellido.</div>
+                </div>
+            </div>
+
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+            <div class="error" id="err-email">Introduce un correo válido.</div>
+
+            <label for="usuario">Nombre de usuario</label>
+            <input id="usuario" name="usuario" type="text" pattern="^[a-zA-Z0-9_.-]{3,20}$" title="3-20 caracteres: letras, números, _ . -" required autocomplete="username" />
+            <div class="error" id="err-usuario">Usuario no válido (3-20 caracteres, letras y números permitidos).</div>
+
+            <div class="row">
+                <div>
+                    <label for="password">Contraseña</label>
+                    <input id="password" name="password" type="password" minlength="8" required autocomplete="new-password" />
+                    <small class="help">Mínimo 8 caracteres.</small>
+                    <div class="error" id="err-password">La contraseña debe tener al menos 8 caracteres.</div>
+                </div>
+
+                <div>
+                    <label for="confirm">Confirmar contraseña</label>
+                    <input id="confirm" name="confirm" type="password" minlength="8" required autocomplete="new-password" />
+                    <div class="error" id="err-confirm">Las contraseñas no coinciden.</div>
+                </div>
+            </div>
+
+            <label for="nacimiento">Fecha de nacimiento</label>
+            <input id="nacimiento" name="nacimiento" type="date" max="" />
+
+            <label for="sexo">Sexo</label>
+            <select id="sexo" name="sexo" >
+                <option value="">Prefiero no decirlo</option>
+                <option value="m">Masculino</option>
+                <option value="f">Femenino</option>
+                <option value="o">Otro</option>
+            </select>
+
+            <div class="terms">
+                <input id="terms" name="terms" type="checkbox" required />
+                <label for="terms"><small>Acepto los términos y condiciones</small></label>
+            </div>
+            <div class="error" id="err-terms">Debes aceptar los términos y condiciones.</div>
+
+            <div class="actions">
+                <button type="submit" class="btn">Registrarse</button>
+                <button type="button" class="btn secondary" onclick="document.getElementById('registerForm').reset()">Borrar</button>
+            </div>
+
+            <div id="serverMsg" class="error" style="display:none;margin-top:10px"></div>
+        </form>
+    </main>
+
+    <script>
+        // Ajusta el máximo de fecha (hoy - 13 años para ejemplo)
+        (function setMaxDate(){
+            const input = document.getElementById('nacimiento');
+            const today = new Date();
+            today.setFullYear(today.getFullYear() - 13);
+            input.max = today.toISOString().slice(0,10);
+        })();
+
+        const form = document.getElementById('registerForm');
+        const els = {
+            nombre: document.getElementById('nombre'),
+            apellido: document.getElementById('apellido'),
+            email: document.getElementById('email'),
+            usuario: document.getElementById('usuario'),
+            password: document.getElementById('password'),
+            confirm: document.getElementById('confirm'),
+            terms: document.getElementById('terms'),
+            serverMsg: document.getElementById('serverMsg')
+        };
+
+        function showError(id, show, text){
+            const el = document.getElementById(id);
+            if(show){ el.textContent = text; el.style.display = 'block'; }
+            else el.style.display = 'none';
+        }
+
+        function validateFields(){
+            let ok = true;
+            // nombre/apellido
+            if(!els.nombre.value.trim()){ showError('err-nombre', true, 'Introduce tu nombre.'); ok = false; } else showError('err-nombre', false);
+            if(!els.apellido.value.trim()){ showError('err-apellido', true, 'Introduce tu apellido.'); ok = false; } else showError('err-apellido', false);
+            // email
+            if(!els.email.checkValidity()){ showError('err-email', true, 'Introduce un correo válido.'); ok = false; } else showError('err-email', false);
+            // usuario pattern
+            if(!els.usuario.checkValidity()){ showError('err-usuario', true, els.usuario.title || 'Usuario no válido.'); ok = false; } else showError('err-usuario', false);
+            // password
+            if(els.password.value.length < 8){ showError('err-password', true, 'La contraseña debe tener al menos 8 caracteres.'); ok = false; } else showError('err-password', false);
+            // confirm
+            if(els.confirm.value !== els.password.value){ showError('err-confirm', true, 'Las contraseñas no coinciden.'); ok = false; } else showError('err-confirm', false);
+            // terms
+            if(!els.terms.checked){ showError('err-terms', true, 'Debes aceptar los términos y condiciones.'); ok = false; } else showError('err-terms', false);
+
+            return ok;
+        }
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            els.serverMsg.style.display = 'none';
+            if(!validateFields()) return;
+
+            // Ejemplo de envío: aquí normalmente enviarías a tu servidor via fetch.
+            // Simulación de respuesta
+            const payload = {
+                nombre: els.nombre.value.trim(),
+                apellido: els.apellido.value.trim(),
+                email: els.email.value.trim(),
+                usuario: els.usuario.value.trim()
+            };
+
+            // Simula petición
+            setTimeout(() => {
+                // Simular éxito
+                alert('Registro completado. Bienvenido, ' + payload.nombre + '!');
+                form.reset();
+            }, 600);
+        });
+
+        // Validación en tiempo real mínima
+        ['input','change'].forEach(evt=>{
+            form.addEventListener(evt, () => {
+                // oculta mensaje general al editar
+                els.serverMsg.style.display = 'none';
+            }, {passive:true});
+        });
+    </script>
+</body>
+</html>

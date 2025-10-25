@@ -1,0 +1,31 @@
+:root{
+            --bg:#f4f6f8; --card:#fff; --accent:#0b74de; --muted:#6b7280;
+        }
+        *{box-sizing:border-box}
+        body{
+            margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+            background:linear-gradient(180deg,#eef3f8 0%,var(--bg) 100%); min-height:100vh;
+            display:flex; align-items:center; justify-content:center; padding:24px;
+        }
+        .card{
+            width:100%; max-width:420px; background:var(--card); border-radius:12px;
+            box-shadow:0 6px 24px rgba(15,23,42,.08); padding:28px;
+        }
+        h1{margin:0 0 8px;font-size:20px}
+        p.lead{margin:0 0 20px;color:var(--muted);font-size:14px}
+        form{display:grid; gap:12px}
+        label{font-size:13px; color:#111827}
+        input[type="text"], input[type="password"], input[type="email"]{
+            width:100%; padding:10px 12px; border:1px solid #e6e9ee; border-radius:8px;
+            background:#fff; font-size:14px;
+        }
+        .row{display:flex; align-items:center; justify-content:space-between; gap:12px}
+        .checkbox{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted)}
+        button{
+            background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:8px;
+            font-weight:600; cursor:pointer; font-size:14px;
+        }
+        .small{font-size:13px; color:var(--muted); text-align:center}
+        .link{color:var(--accent); text-decoration:none}
+        .helper{display:flex; align-items:center; gap:8px}
+        .show-toggle{background:transparent;border:0;color:var(--accent);cursor:pointer;font-size:13px;padding:6px}
