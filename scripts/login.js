@@ -1,76 +1,85 @@
- // Comportamiento mínimo: toggle de visibilidad y validación simple con feedback visible
-        (function(){
-            var form = document.getElementById('loginForm');
-            var pwd = document.getElementById('password');
-            var toggle = document.getElementById('togglePwd');
-            var result = document.getElementById('validationResult');
+// scripts/login.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-            // Validación: al menos una mayúscula y un número
-            var pwdRule = /(?=.*[A-Z])(?=.*\d)/;
+// 🔹 Configuración de Firebase (igual que registro.js)
+const firebaseConfig = {
+  apiKey: "AIzaSyBGlAxyLzrMPyTFK-HeHRAm2G76rz6YnrA",
+  authDomain: "tfg-milonario.firebaseapp.com",
+  projectId: "tfg-milonario",
+  storageBucket: "tfg-milonario.appspot.com",
+  messagingSenderId: "527650063519",
+  appId: "1:527650063519:web:88d8f4e8ae254b8b728eaa"
+};
 
-            function showMessage(message, ok) {
-                result.textContent = message || '';
-                result.style.color = ok ? '#047857' : '#b91c1c'; // verde oscuro / rojo
-            }
+// 🔹 Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-            function validatePwd() {
-                var value = pwd.value || '';
-                if (value.length === 0) {
-                    pwd.setCustomValidity('');
-                    showMessage(''); // dejar el área vacía cuando no hay input
-                    return;
-                }
-                if (!pwdRule.test(value)) {
-                    pwd.setCustomValidity('La contraseña debe contener al menos una mayúscula y un número.');
-                    showMessage('La contraseña debe contener al menos una mayúscula y un número.', false);
-                } else {
-                    pwd.setCustomValidity('');
-                    showMessage('Contraseña válida.', true);
-                }
-            }
+// 🔹 Elementos del formulario
+const form = document.getElementById('loginForm');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const validationResult = document.getElementById('validationResult');
+const togglePwd = document.getElementById('togglePwd');
 
-            // Validar mientras el usuario escribe para feedback inmediato
-            pwd.addEventListener('input', function(){
-                validatePwd();
-            });
+// 🔹 Función para mostrar mensajes
+function showMessage(text, isError = true){
+    validationResult.textContent = text;
+    validationResult.style.color = isError ? 'red' : 'green';
+}
 
-            toggle.addEventListener('click', function(){
-                var isHidden = pwd.type === 'password';
-                pwd.type = isHidden ? 'text' : 'password';
-                toggle.textContent = isHidden ? 'Ocultar' : 'Mostrar';
-                toggle.setAttribute('aria-pressed', String(isHidden));
-            });
+// 🔹 Validación básica
+function validateFields(){
+    let ok = true;
 
-            function gatherInvalidMessages(formEl) {
-                var messages = [];
-                Array.prototype.forEach.call(formEl.elements, function(el){
-                    if (!el.willValidate) return;
-                    if (!el.checkValidity()) {
-                        var label = formEl.querySelector('label[for="'+el.id+'"]');
-                        var name = label ? label.textContent.trim() : (el.name || el.id);
-                        messages.push(name + ': ' + el.validationMessage);
-                    }
-                });
-                return messages;
-            }
+    if(!emailInput.checkValidity()){
+        showMessage('Introduce un correo válido.');
+        ok = false;
+    } else if(!passwordInput.value || passwordInput.value.length < 6){
+        showMessage('La contraseña debe tener al menos 6 caracteres.');
+        ok = false;
+    } else {
+        showMessage('', false);
+    }
 
-            form.addEventListener('submit', function(e){
-                // forzar validación personalizada antes de comprobar
-                validatePwd();
+    return ok;
+}
 
-                // validación sencilla y accesible
-                if (!form.checkValidity()) {
-                    e.preventDefault();
-                    var msgs = gatherInvalidMessages(form);
-                    showMessage(msgs.length ? msgs.join(' — ') : 'Formulario inválido.', false);
-                    var firstInvalid = form.querySelector(':invalid');
-                    if (firstInvalid) firstInvalid.focus();
-                    return;
-                }
+// 🔹 Submit del formulario
+form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(!validateFields()) return;
 
-                // Formulario válido -> mostrar resultado (en desarrollo evitamos envío real)
-                e.preventDefault();
-                showMessage('Datos válidos. Envío simulado completado.', true);
-                // Si quieres permitir envío real, quita el preventDefault anterior.
-            });
-        })();
+    try {
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            emailInput.value.trim(),
+            passwordInput.value
+        );
+
+        const user = userCredential.user;
+        showMessage('¡Bienvenido, ' + user.email + '!', false);
+        form.reset();
+
+        // Redirige a la página principal
+        window.location.href = 'index.html';
+
+    } catch (error) {
+        let errorMsg = 'Correo o contraseña incorrectos.';
+        switch(error.code){
+            case 'auth/user-not-found': errorMsg = 'Usuario no encontrado.'; break;
+            case 'auth/wrong-password': errorMsg = 'Contraseña incorrecta.'; break;
+            case 'auth/invalid-email': errorMsg = 'Correo inválido.'; break;
+        }
+        showMessage(errorMsg);
+    }
+});
+
+// 🔹 Mostrar / ocultar contraseña
+togglePwd.addEventListener('click', () => {
+    const type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = type;
+    togglePwd.textContent = type === 'password' ? 'Mostrar' : 'Ocultar';
+    togglePwd.setAttribute('aria-pressed', type === 'text');
+});

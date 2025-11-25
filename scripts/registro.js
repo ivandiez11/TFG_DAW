@@ -129,3 +129,43 @@ form.addEventListener('submit', async function(e){
 ['input','change'].forEach(evt=>{
     form.addEventListener(evt, () => { showError('serverMsg', false); }, {passive:true});
 });
+
+
+// 🔹 Función para obtener y mostrar nombre de usuario en pantalla (para index.html)
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { getDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+export function mostrarNombreUsuarioEnIndex() {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            try {
+                const docRef = doc(db, "usuarios", user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const nombreUsuario = data.nombre || data.usuario || "Jugador";
+
+                    // Actualiza el hero principal
+                    const heroTitle = document.querySelector('#inicio h2');
+                    if(heroTitle) heroTitle.textContent = `Bienvenido, ${nombreUsuario} a "El juego del millón"`;
+
+                    // Actualiza el enlace de navegación si existe
+                    const navLogin = document.getElementById('navLogin');
+                    if(navLogin){
+                        navLogin.textContent = `${nombreUsuario} / Cerrar sesión`;
+                        navLogin.href = "#";
+                        navLogin.addEventListener('click', async (e)=>{
+                            e.preventDefault();
+                            await signOut(auth);
+                            window.location.reload();
+                        });
+                    }
+                }
+            } catch(error) {
+                console.error("Error al obtener usuario para index:", error);
+            }
+        }
+    });
+}
+// Llama a la función para mostrar el nombre de usuario en index.html
+mostrarNombreUsuarioEnIndex();
