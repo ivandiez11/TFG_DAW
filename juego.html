@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Juego del Millón 💰</title>
-  <link rel="stylesheet" href="estilos/juego.css" />
+  <meta charset="UTF-8">
+  <title>Juego Trivia</title>
+  <link rel="stylesheet" href="estilos/juego.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Juego del Millón 💰</h1>
-    <div id="question-container">
-      <h2 id="question">Cargando preguntas...</h2>
-      <div id="answer-buttons" class="btn-grid"></div>
-    </div>
 
-    <div class="controls">
-      <p>Puntaje: <span id="score">0</span></p>
-      <button id="next-btn" class="next-btn">Siguiente</button>
-    </div>
-  </div>
+<h1>🎯 Juego de Preguntas</h1>
 
-  <script src="scripts/juego.js"></script>
+<div id="start">
+  <button id="startBtn">COMENZAR</button>
+</div>
+
+<div id="game" style="display:none;">
+  <h2 id="mode"></h2>
+  <h3 id="question"></h3>
+  <div id="answers"></div>
+  <p>Vidas: <span id="lives"></span></p>
+  <p>Dinero: $<span id="money"></span></p>
+</div>
+
+<div id="menuEnd" style="display:none;">
+  <h2 id="endTitle"></h2>
+  <p id="endText"></p>
+  <button id="continueBtn">CONTINUAR</button>
+  <button id="exitBtn">RETIRARSE</button>
+</div>
+
+<script src="scripts/juego.js"></script>
 </body>
 </html>
