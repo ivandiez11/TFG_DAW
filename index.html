@@ -4,37 +4,42 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>El juego de un millón — Inicio</title>
+
 <link rel="stylesheet" href="estilos/index.css">
+<link rel="stylesheet" href="estilos/logout.css">
+
 </head>
 <body>
-<header class="site-header">
-    
-<div class="container">
-<h1 class="logo">💰 El juego de un millón</h1>
-<button id="botonMenu" class="menu-btn" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú">☰</button>
-<nav id="mainNav" class="main-nav" role="navigation">
 
-<a href="#reglas">Reglas</a>
-<a href="#concursantes">Concursantes</a>
-<a href="#preguntas">Preguntas Frecuentes</a>
-<a href="login.html">Iniciar Sesión</a>
-</nav>
-</div>
+<header class="site-header">
+    <div class="header-container">
+
+        <h1 class="logo">💰 El juego de un millón</h1>
+
+        <nav id="mainNav" class="main-nav" role="navigation">
+            <a href="#reglas">Reglas</a>
+            <a href="#concursantes">Concursantes</a>
+            <a href="#preguntas">Preguntas Frecuentes</a>
+        </nav>
+
+        <button id="logoutBtn" class="logout-top-btn">Cerrar sesión</button>
+
+    </div>
 </header>
 
 <main>
 <section id="inicio" class="hero">
 <div class="container"></div>
 <h2>Bienvenido a "El juego del millón"</h2>
-<p>Participa, responde y compite por el gran premio. Conoce a los concursantes, las rondas y sigue la final en vivo.</p>
+<p>Participa, responde y compite por el gran premio.</p>
 </section>
 
-<section id="jugar_ahora" class="section container" role="region" aria-labelledby="jugarAhoraTitle" style="display:flex;flex-direction:column;align-items:center;">
-    <h3 id="jugarAhoraTitle" style="text-align:center;">¡Jugar ahora!</h3>
-    <div class="card play-now" style="text-align:center;max-width:720px;width:100%;">
-        <p class="muted">¿Listo para competir por el millón? Pulsa el botón para empezar la partida.</p>
+<section id="jugar_ahora" class="section container">
+    <h3 id="jugarAhoraTitle">¡Jugar ahora!</h3>
+    <div class="card play-now">
+        <p class="muted">Pulsa el botón para empezar la partida.</p>
         <div class="actions">
-            <a id="btnJugarAhora" class="btn primary" href="juego.html" role="button" aria-label="Iniciar juego">Inicio</a>
+            <a id="btnJugarAhora" class="btn primary" href="juego.html">Inicio</a>
         </div>
     </div>
 </section>
@@ -42,44 +47,28 @@
 <section id="reglas" class="section container">
 <h3>Reglas del juego</h3>
 <div class="card">
-    <p class="muted">Objetivo: Responder correctamente a preguntas de distintas categorías para avanzar rondas y alcanzar el bote final.</p>
+    <p class="muted">Objetivo: Responder correctamente…</p>
     <ul>
-        <li>Fases: Fase fácil (7 preguntas), Fase media (5 preguntas), Fase difícil (3 preguntas), Gran final (1 pregunta).</li>
-        <li>Tiempo por pregunta: 30 segundos.</li>
-        <li>Ayudas: 2 comodines por concursante.</li>
+        <li>Fase fácil (7 preguntas)</li>
+        <li>Fase media (5 preguntas)</li>
+        <li>Fase difícil (3 preguntas)</li>
+        <li>Gran final (1 pregunta)</li>
     </ul>
 </div>
 </section>
 
 <section id="concursantes" class="section container">
 <h3>Concursantes</h3>
-<div id="panelConcursantes" class="grid" aria-live="polite"></div>
+<div id="panelConcursantes" class="grid"></div>
 </section>
 
 <section id="preguntas" class="section container">
 <h3>Preguntas Frecuentes</h3>
 <div class="card">
-    <details class="collapsible">
-        <summary aria-controls="detallesReglas" aria-expanded="false">¿Puedo retirarme a mitad del juego?</summary>
-        <div id="detallesReglas" role="region">
-            <p class="muted">Sí, puedes retirarte en cualquier momento. Sin embargo, si lo haces, perderás la oportunidad de ganar el premio acumulado.</p>
-        </div>
+    <details>
+        <summary>¿Puedo retirarme a mitad del juego?</summary>
+        <p class="muted">Sí, puedes retirarte…</p>
     </details>
-
-    <details class="collapsible">
-        <summary aria-controls="detallesComodines" aria-expanded="false">¿Cómo funcionan los comodines?</summary>
-        <div id="detallesComodines" role="region">
-            <p class="muted">Cada concursante dispone de 2 comodines que pueden usar para saltarse una pregunta o pedir ayuda. Los comodines no son acumulativos y deben usarse antes de responder.</p>
-        </div>
-    </details>
-
-    <details class="collapsible">
-        <summary aria-controls="detallesInscripcion" aria-expanded="false">¿Cómo me inscribo para participar?</summary>
-        <div id="detallesInscripcion" role="region">
-            <p class="muted">Para jugar deber registrarte previamente en nuestra página web. Si ya estás registrado, puedes iniciar sesión para participar en el juego.</p>
-        </div>
-    </details>
-
 </div>
 </section>
 </main>
@@ -89,11 +78,10 @@
 <div style="text-align:center;">
     <small>© <span id="year"></span> El juego de un millón — Iván y Alberto</small>
 </div>
-</div>
 </footer>
 
-    <script type="module" src="scripts/index.js"></script>
-    <script type="module" src="scripts/authState.js"></script>
+<script type="module" src="scripts/index.js"></script>
+<script type="module" src="scripts/logout.js"></script>
 
 </body>
 </html>

@@ -18,13 +18,77 @@ color:#e6eef6;
 }
 
 .container{max-width:1100px;margin:0 auto;padding:1rem}
-.site-header{backdrop-filter: blur(6px);position:sticky;top:0;background:linear-gradient(180deg, rgba(0,0,0,0.35), transparent);z-index:20}
-.site-header .container{display:flex;align-items:center;gap:1rem;padding:0.75rem}
-.logo{margin:0;font-size:1.25rem}
-.menu-btn{display:none;background:none;border:0;color:inherit;font-size:1.25rem}
-.main-nav{margin-left:auto;display:flex;gap:1rem}
-.main-nav a{color:var(--muted);text-decoration:none;padding:0.5rem;border-radius:8px}
-.main-nav a:hover{color:var(--accent)}
+
+/* =========================== */
+/* 🟦 HEADER FULL-WIDTH + CENTRADO */
+/* =========================== */
+
+.site-header{
+    width:100%;
+    backdrop-filter: blur(6px);
+    position:sticky;
+    top:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0.35), transparent);
+    z-index:20;
+}
+
+/* ESTE ES EL NUEVO CONTENEDOR DEL HEADER */
+.header-container{
+    max-width:1100px;            /* igual que el resto de tu web */
+    margin:0 auto;               /* centra el contenido */
+    padding:0.75rem 1rem;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    width:100%;
+}
+
+/* Logo a la izquierda */
+.logo{
+    margin:0;
+    font-size:1.25rem;
+}
+
+/* Menú en el centro */
+.main-nav{
+    margin-left:auto;
+    display:flex;
+    gap:1rem;
+}
+
+.main-nav a{
+    color:var(--muted);
+    text-decoration:none;
+    padding:0.5rem;
+    border-radius:8px;
+}
+
+.main-nav a:hover{
+    color:var(--accent);
+}
+
+/* 🔴 Botón Cerrar Sesión a la derecha */
+.logout-top-btn{
+    background-color:#b91c1c;
+    color:white;
+    border:none;
+    padding:8px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    height:40px;
+    display:flex;
+    align-items:center;
+}
+
+.logout-top-btn:hover{
+    background-color:#dc2626;
+}
+
+/* =========================== */
+/* RESTO DEL CSS (SIN CAMBIOS) */
+/* =========================== */
+
 .hero{padding:3rem 0;text-align:center}
 .hero h2{font-size:2rem;margin:0 0 .25rem}
 .hero p{margin:0 0 1rem;color:var(--muted)}
@@ -44,46 +108,53 @@ color:#e6eef6;
 .contact input,.contact textarea{padding:.6rem;border-radius:8px;border:0;background:#051523;color:inherit}
 .site-footer{padding:1rem 0;color:var(--muted)}
 
-/* Contenedor principal de la final */
-h3 { text-align:center; margin-bottom:18px; font-size:1.6rem; color:#ffffff; }
+h3{text-align:center;margin-bottom:18px;font-size:1.6rem;color:#ffffff;}
 
-#granFinal.horizontal-grid {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    gap: 24px;
-    overflow: hidden;
-    flex-wrap: wrap;
-    padding: 14px 0;
+#granFinal.horizontal-grid{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:stretch;
+    gap:24px;
+    overflow:hidden;
+    flex-wrap:wrap;
+    padding:14px 0;
 }
-#granFinal .card.finalist {
-    flex: 1 1 360px;
-    max-width: 420px;
-    background-color: #071026;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    font-size: 1.03rem;
+#granFinal .card.finalist{
+    flex:1 1 360px;
+    max-width:420px;
+    background-color:#071026;
+    border-radius:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.15);
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+    font-size:1.03rem;
 }
-#granFinal .card.finalist:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+#granFinal .card.finalist:hover{
+    transform:translateY(-6px) scale(1.01);
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
-.contestant-photo {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 8px;
+
+.contestant-photo{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:8px;
 }
-.final-header {
+
+.final-header{
     display:flex;
     align-items:center;
     gap:12px;
     padding-bottom:6px;
 }
-.final-meta { margin-top:14px; font-size:1rem; color:#ffffff; }
+
+.final-meta{
+    margin-top:14px;
+    font-size:1rem;
+    color:#ffffff;
+}
