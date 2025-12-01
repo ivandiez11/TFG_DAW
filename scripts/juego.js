@@ -1,4 +1,9 @@
+// scripts/juego.js
 console.log("✅ juego.js cargado correctamente");
+
+import { db, auth } from "./firebaseConfig.js";
+import { collection, addDoc, doc, getDoc } 
+  from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("startBtn");
@@ -11,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
   startBtn.addEventListener("click", startGame);
 });
 
+// -----------------------
+// VARIABLES DEL JUEGO
+// -----------------------
 let data = [];
 let index = 0;
 
@@ -20,14 +28,53 @@ let money = 0;
 let modeIndex = 0;
 let questionCount = 0;
 
-let answered = false;   // 🔥 controla doble clic
+let answered = false;
 
+// -----------------------
+// MODOS DEL JUEGO
+// -----------------------
 const modes = [
   { name: "FÁCIL", rounds: 5, difficulty: "easy", prize: 100, lives: 3 },
   { name: "MEDIO", rounds: 3, difficulty: "medium", prize: 300, lives: 2 },
   { name: "DIFÍCIL", rounds: 3, difficulty: "hard", prize: 1000, lives: 1 }
 ];
 
+// -----------------------
+// GUARDAR PUNTUACIÓN EN FIRESTORE CON NOMBRE DE USUARIO
+// -----------------------
+async function guardarPuntuacion(score) {
+  try {
+    const user = auth.currentUser;
+    let username = "Anon";
+
+    if (user) {
+      // Leer los datos del usuario desde Firestore
+      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        username = data.usuario || `${data.nombre} ${data.apellido}` || user.email;
+      } else {
+        username = user.email;
+      }
+    }
+
+    // Guardar score en Firestore
+    await addDoc(collection(db, "scores"), {
+      username: username,
+      score: score,
+      timestamp: Date.now()
+    });
+
+    console.log("🔥 Puntuación guardada para:", username);
+
+  } catch (error) {
+    console.error("❌ Error al guardar puntuación:", error);
+  }
+}
+
+// -----------------------
+// CONTROL PRINCIPAL
+// -----------------------
 async function startGame() {
   document.getElementById("start").style.display = "none";
   document.getElementById("game").style.display = "block";
@@ -64,7 +111,7 @@ function showQuestion() {
     return;
   }
 
-  answered = false;  // 🔥 permite contestar
+  answered = false;
 
   const q = data[index];
 
@@ -86,32 +133,25 @@ function showQuestion() {
 
 function checkAnswer(selectedBtn, correct) {
 
-  // 🔥 evita doble clic
   if (answered) return;
   answered = true;
 
-  // DESACTIVA BOTONES
   document.querySelectorAll("#answers button").forEach(btn => btn.disabled = true);
 
-  // ACIERTO
   if (selectedBtn.innerHTML === correct) {
     selectedBtn.classList.add("correct");
     money += modes[modeIndex].prize;
-    questionCount++;  // 🔥 SOLO SUBE SI ES CORRECTA
-  }
-
-  // FALLO
-  else {
+    questionCount++;
+  } else {
     selectedBtn.classList.add("wrong");
-    lives -= 1;       // 🔥 AHORA SOLO RESTA 1 SIEMPRE
+    lives -= 1;
 
-    // Marca correcta
     document.querySelectorAll("#answers button").forEach(btn => {
       if (btn.innerHTML === correct) btn.classList.add("correct");
     });
   }
 
-  index++;  // siempre avanza de pregunta
+  index++;
   updateHUD();
 
   setTimeout(() => {
@@ -127,8 +167,10 @@ function checkAnswer(selectedBtn, correct) {
 }
 
 function updateHUD() {
-  document.getElementById("lives").innerText = lives;
-  document.getElementById("money").innerText = money;
+  const livesEl = document.getElementById("lives");
+  const moneyEl = document.getElementById("money");
+  if (livesEl) livesEl.innerText = lives;
+  if (moneyEl) moneyEl.innerText = money;
 }
 
 function modeEnd() {
@@ -170,6 +212,10 @@ function gameOver() {
 }
 
 function endGame() {
+
+  // Guardar puntuación con el nombre del usuario
+  guardarPuntuacion(money);
+
   document.getElementById("game").style.display = "none";
   document.getElementById("menuEnd").style.display = "block";
 
