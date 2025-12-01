@@ -11,8 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   startBtn.addEventListener("click", startGame);
 });
 
-const API_URL = "https://opentdb.com/api.php?amount=10&category=17&type=multiple";
-
 let data = [];
 let index = 0;
 
@@ -22,10 +20,12 @@ let money = 0;
 let modeIndex = 0;
 let questionCount = 0;
 
+let answered = false;   // 🔥 controla doble clic
+
 const modes = [
-  {name: "FÁCIL", rounds: 5, difficulty: "easy", prize: 100, lives: 3},
-  {name: "MEDIO", rounds: 3, difficulty: "medium", prize: 300, lives: 2},
-  {name: "DIFÍCIL", rounds: 3, difficulty: "hard", prize: 1000, lives: 1}
+  { name: "FÁCIL", rounds: 5, difficulty: "easy", prize: 100, lives: 3 },
+  { name: "MEDIO", rounds: 3, difficulty: "medium", prize: 300, lives: 2 },
+  { name: "DIFÍCIL", rounds: 3, difficulty: "hard", prize: 1000, lives: 1 }
 ];
 
 async function startGame() {
@@ -45,7 +45,7 @@ async function loadMode() {
 
 async function loadQuestions(difficulty) {
   const response = await fetch(
-    `https://opentdb.com/api.php?amount=${modes[modeIndex].rounds}&category=17&difficulty=${difficulty}&type=multiple`
+    `https://opentdb.com/api.php?amount=${modes[modeIndex].rounds}&difficulty=${difficulty}&type=multiple`
   );
   const json = await response.json();
   data = json.results;
@@ -53,18 +53,25 @@ async function loadQuestions(difficulty) {
 }
 
 function showQuestion() {
+
   if (questionCount >= modes[modeIndex].rounds) {
     modeEnd();
     return;
   }
+
+  if (index >= data.length) {
+    modeEnd();
+    return;
+  }
+
+  answered = false;  // 🔥 permite contestar
 
   const q = data[index];
 
   document.getElementById("mode").innerText = `Modo ${modes[modeIndex].name}`;
   document.getElementById("question").innerHTML = q.question;
 
-  let answers = [...q.incorrect_answers, q.correct_answer];
-  answers.sort(() => Math.random() - 0.5);
+  const answers = [...q.incorrect_answers, q.correct_answer].sort(() => Math.random() - 0.5);
 
   const answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
@@ -72,42 +79,41 @@ function showQuestion() {
   answers.forEach(answer => {
     const btn = document.createElement("button");
     btn.innerHTML = answer;
-    btn.onclick = () => checkAnswer(btn, q.correct_answer);
+    btn.addEventListener("click", () => checkAnswer(btn, q.correct_answer));
     answersDiv.appendChild(btn);
   });
 }
 
 function checkAnswer(selectedBtn, correct) {
 
-  // DESACTIVAR BOTONES
-  document.querySelectorAll("#answers button").forEach(btn => {
-    btn.disabled = true;
-  });
+  // 🔥 evita doble clic
+  if (answered) return;
+  answered = true;
+
+  // DESACTIVA BOTONES
+  document.querySelectorAll("#answers button").forEach(btn => btn.disabled = true);
 
   // ACIERTO
   if (selectedBtn.innerHTML === correct) {
     selectedBtn.classList.add("correct");
     money += modes[modeIndex].prize;
-  } 
+    questionCount++;  // 🔥 SOLO SUBE SI ES CORRECTA
+  }
+
   // FALLO
   else {
     selectedBtn.classList.add("wrong");
-    lives--;
-    // 🔥 MARCAR LA RESPUESTA CORRECTA AUTOMÁTICAMENTE
-  document.querySelectorAll("#answers button").forEach(btn => {
-    if (btn.innerHTML === correct) {
-      btn.classList.add("correct");
-    }
-  });
+    lives -= 1;       // 🔥 AHORA SOLO RESTA 1 SIEMPRE
+
+    // Marca correcta
+    document.querySelectorAll("#answers button").forEach(btn => {
+      if (btn.innerHTML === correct) btn.classList.add("correct");
+    });
   }
 
-  // SIEMPRE AVANZA DE PREGUNTA
-  questionCount++;
-  index++;
-
+  index++;  // siempre avanza de pregunta
   updateHUD();
 
-  // ESPERA 1 SEGUNDO Y CAMBIA
   setTimeout(() => {
 
     if (lives <= 0) {
@@ -120,20 +126,19 @@ function checkAnswer(selectedBtn, correct) {
   }, 1000);
 }
 
-
 function updateHUD() {
   document.getElementById("lives").innerText = lives;
   document.getElementById("money").innerText = money;
 }
 
 function modeEnd() {
-
   document.getElementById("game").style.display = "none";
   document.getElementById("menuEnd").style.display = "block";
 
   document.getElementById("endTitle").innerText = "✅ MODO SUPERADO";
   document.getElementById("endText").innerText = `Dinero actual: $${money}`;
 
+  document.getElementById("continueBtn").style.display = "block";
   document.getElementById("continueBtn").onclick = () => {
     modeIndex++;
 
@@ -147,13 +152,11 @@ function modeEnd() {
     loadMode();
   };
 
-  document.getElementById("exitBtn").onclick = () => {
-    endGame();
-  };
+  document.getElementById("exitBtn").innerText = "SALIR";
+  document.getElementById("exitBtn").onclick = endGame;
 }
 
 function gameOver() {
-
   document.getElementById("game").style.display = "none";
   document.getElementById("menuEnd").style.display = "block";
 
@@ -163,13 +166,10 @@ function gameOver() {
   document.getElementById("continueBtn").style.display = "none";
 
   document.getElementById("exitBtn").innerText = "REINICIAR";
-  document.getElementById("exitBtn").onclick = () => {
-    location.reload();
-  };
+  document.getElementById("exitBtn").onclick = () => location.reload();
 }
 
 function endGame() {
-
   document.getElementById("game").style.display = "none";
   document.getElementById("menuEnd").style.display = "block";
 
@@ -178,8 +178,5 @@ function endGame() {
 
   document.getElementById("continueBtn").style.display = "none";
   document.getElementById("exitBtn").innerText = "JUGAR DE NUEVO";
-
-  document.getElementById("exitBtn").onclick = () => {
-    location.reload();
-  };
+  document.getElementById("exitBtn").onclick = () => location.reload();
 }
