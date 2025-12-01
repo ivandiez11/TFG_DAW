@@ -1,5 +1,4 @@
-
-/* ====== ESTILO LOGIN OSCURO ====== */
+/* ====== VARIABLES GENERALES ====== */
 :root {
   --color-bg: #0a0e1a;
   --color-bg-card: #111827;
@@ -12,205 +11,139 @@
   font-family: 'Inter', system-ui, sans-serif;
 }
 
+/* ====== BODY ====== */
 body {
   margin: 0;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: linear-gradient(180deg, #0d1117 0%, #0a0e1a 100%);
   color: var(--color-text);
+  padding-top: 140px; /* 🔥 más espacio entre h1 y el juego */
 }
 
-main.card {
-  background-color: var(--color-bg-card);
-  padding: 2.5rem;
-  border-radius: var(--radius);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  animation: fadeIn 0.8s ease forwards;
-}
-
+/* ====== TÍTULO FIJO ====== */
 h1 {
-  margin-bottom: 0.5rem;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #fff;
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 32px;
+  margin: 0;
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: white;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  z-index: 1000;
 }
 
-.lead {
-  font-size: 0.95rem;
-  color: var(--color-muted);
-  margin-bottom: 1.8rem;
-}
-
-form div {
-  margin-bottom: 1rem;
-  text-align: left;
-}
-
-label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  color: var(--color-text);
-}
-
-input {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  border-radius: var(--radius);
-  border: 1px solid #1f2937;
-  background-color: #0f172a;
-  color: var(--color-text);
-  font-size: 0.95rem;
-  transition: border var(--transition), background var(--transition);
-}
-
-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  background-color: #1e293b;
-}
-
-button {
+/* ====== BOTONES PRINCIPALES (COMENZAR / CONTINUAR / SALIR) ====== */
+#start button,
+#menuEnd button {
   background-color: var(--color-primary);
   color: white;
-  font-weight: 600;
-  padding: 0.7rem 1.2rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 0.9rem 1.8rem;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  width: 100%;
-  transition: background-color var(--transition), transform var(--transition);
+  transition: 0.3s ease;
+  margin-top: 10px;
 }
 
-button:hover {
+#start button:hover,
+#menuEnd button:hover {
   background-color: var(--color-primary-hover);
-  transform: translateY(-1px);
+  transform: translateY(-3px);
 }
 
-button.show-toggle {
-  width: auto;
-  padding: 0.5rem 0.8rem;
-  background-color: transparent;
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  font-size: 0.85rem;
-  transition: all var(--transition);
-}
-
-button.show-toggle:hover {
-  background-color: var(--color-primary);
-  color: #fff;
-}
-
-a.link {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color var(--transition);
-}
-
-a.link:hover {
-  color: var(--color-primary-hover);
-}
-
-.small {
-  font-size: 0.85rem;
-  color: var(--color-muted);
-  margin-top: 0.5rem;
-}
-
-#validationResult {
-  margin: 0.5rem 0 1rem;
-}
-button.correct {
-  background-color: green;
-  color: white;
-}
-
-button.wrong {
-  background-color: red;
-  color: white;
-}
-
-button {
-  transition: all 0.3s ease;
-}
-
-/* ====== PREGUNTAS ARRIBA / RESPUESTAS ABAJO ====== */
-
+/* ====== CONTENEDOR DEL JUEGO ====== */
 #game {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* espacio general */
-  max-width: 450px;
-  margin: auto;
+  gap: 1.6rem;
+  width: 92%;
+  max-width: 750px;
+  min-height: 450px;  /* 🔥 más grande */
   background-color: var(--color-bg-card);
-  padding: 1.5rem;
+  padding: 2.3rem;
   border-radius: var(--radius);
+  text-align: center;
 }
 
-/* pregunta */
-#question {
-  font-size: 1.1rem;
-  color: #fff;
+/* ====== TEXTO DEL MODO ====== */
+#mode {
+  font-size: 1.4rem;
   font-weight: bold;
-  margin-bottom: 0.3rem;
+  color: var(--color-primary);
 }
 
-/* contenedor respuestas */
+/* ====== PREGUNTA ====== */
+#question {
+  font-size: 1.9rem;  /* 🔥 muy visible */
+  font-weight: 900;
+  color: white;
+  margin: 0.5rem 0 1.2rem;
+  line-height: 1.4;
+}
+
+/* ====== RESPUESTAS (CUADRÍCULA 2×2) ====== */
 #answers {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem; /* separación entre opciones */
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 🔥 2 columnas */
+  gap: 1rem;
+  width: 100%;
 }
 
-/* botones de respuesta */
 #answers button {
   background-color: #1f2937;
   color: white;
   border: 1px solid #374151;
-  padding: 0.6rem 0.8rem;
+  padding: 1rem;
   border-radius: var(--radius);
   cursor: pointer;
-  text-align: left;
-  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 500;
+  min-height: 80px; /* 🔥 más grandes */
+  transition: 0.3s ease;
 }
 
-/* hover */
 #answers button:hover {
   background-color: #293548;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
-/* correcta */
+/* ====== BOTONES CORRECTO / INCORRECTO ====== */
 #answers button.correct {
-  background: green;
+  background-color: green !important;
   color: white;
 }
 
-/* incorrecta */
 #answers button.wrong {
-  background: red;
+  background-color: red !important;
   color: white;
 }
 
-/* vidas y dinero abajo más pequeños */
+/* ====== HUD (vidas, dinero) ====== */
 #game p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--color-muted);
   margin: 0;
 }
+
+/* ====== MENÚ FINAL ====== */
 #menuEnd {
   text-align: center;
   margin-top: 40px;
 }
 
 #menuEnd button {
-  padding: 12px 20px;
+  padding: 14px 22px;
   font-size: 18px;
   margin: 10px;
 }

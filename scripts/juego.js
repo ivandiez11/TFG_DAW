@@ -93,6 +93,12 @@ function checkAnswer(selectedBtn, correct) {
   else {
     selectedBtn.classList.add("wrong");
     lives--;
+    // 🔥 MARCAR LA RESPUESTA CORRECTA AUTOMÁTICAMENTE
+  document.querySelectorAll("#answers button").forEach(btn => {
+    if (btn.innerHTML === correct) {
+      btn.classList.add("correct");
+    }
+  });
   }
 
   // SIEMPRE AVANZA DE PREGUNTA
