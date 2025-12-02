@@ -20,21 +20,74 @@
 /* ============================================================
    BODY Y FONDO TV
    ============================================================ */
+/* 🌟 Fondo estilo Millonario sin mover el contenido */
+body {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Capa animada detrás de todo */
+/* Mantener el body pero hacer el fondo fijo y siempre visible detrás de todo */
 body {
   margin: 0;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-
-  background:
-      radial-gradient(1200px 600px at 10% 10%, rgba(0,180,255,0.08), transparent 10%),
-      linear-gradient(180deg, var(--color-bg), var(--color-bg2));
-
   color: var(--color-text);
-
-  padding-top: 140px;
+  overflow: hidden;
+  background: transparent; /* dejar transparente para que se vea el ::before */
+  position: relative;
+  padding-top: 0;
 }
+
+/* 🔵 Capa animada del fondo — fija y siempre visible */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  /* Aros + luces */
+  background:
+      radial-gradient(circle at center,
+        transparent 0%,
+        transparent 14%,
+        rgba(255,220,120,0.10) 15%,
+        transparent 17%,
+        transparent 29%,
+        rgba(255,220,120,0.08) 30%,
+        transparent 32%,
+        transparent 44%,
+        rgba(255,220,120,0.06) 45%,
+        transparent 47%),
+
+      radial-gradient(circle at center, rgba(80,160,255,0.35), transparent 70%),
+
+      radial-gradient(circle at 50% -10%, rgba(0,140,255,0.4), transparent 60%),
+
+      radial-gradient(circle at 50% 110%, rgba(0,80,200,0.28), transparent 70%),
+
+      radial-gradient(circle at center, #051532, #020814);
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+
+  /* Mantener una leve "respiración" de brillo pero sin rotación,
+     así el fondo se ve siempre constante y estable */
+  animation: millonario-breath 8s ease-in-out infinite;
+}
+
+/* ✨ Brillo suave */
+@keyframes millonario-breath {
+  0%   { filter: brightness(0.95) saturate(1); }
+  50%  { filter: brightness(1.08) saturate(1.05); }
+  100% { filter: brightness(0.95) saturate(1); }
+}
+
 
 /* ============================================================
    TÍTULO PRINCIPAL

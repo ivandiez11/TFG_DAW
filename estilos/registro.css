@@ -1,4 +1,4 @@
-/* ====== ESTILO REGISTRO - JUEGO DEL MILLÓN ====== */
+/* ====== ESTILO REGISTRO ADAPTADO — ESTÉTICA JUEGO ====== */
 
 /* Box-sizing global */
 *,
@@ -8,14 +8,14 @@
 }
 
 :root {
-  --color-bg: #0a0e1a;
-  --color-bg-card: #111827;
+  --color-bg: #081020;
+  --color-bg-card: #101a33;
   --color-text: #e5e7eb;
   --color-muted: #9ca3af;
-  --color-primary: #ff6b3d;
-  --color-primary-hover: #ff845a;
-  --radius: 12px;
-  --transition: 0.3s ease;
+  --color-primary: #00b4ff;
+  --color-primary-hover: #4cd2ff;
+  --radius: 14px;
+  --transition: 0.25s ease;
   font-family: 'Inter', system-ui, sans-serif;
 }
 
@@ -25,26 +25,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #0d1117 0%, #0a0e1a 100%);
+  background:
+    radial-gradient(900px 400px at 20% 5%, rgba(0,180,255,0.10), transparent 40%),
+    linear-gradient(180deg, var(--color-bg), #0a1530);
   color: var(--color-text);
 }
 
 main.card {
-  background-color: var(--color-bg-card);
+  background: var(--color-bg-card);
   padding: 2.5rem;
   border-radius: var(--radius);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.05);
   max-width: 550px;
   width: 90%;
   animation: fadeIn 0.8s ease forwards;
+  transition: var(--transition);
+}
+
+main.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,180,255,0.25);
 }
 
 h1 {
   margin-bottom: 0.5rem;
   font-size: 1.9rem;
-  font-weight: 700;
+  font-weight: 900;
   text-align: center;
-  color: #fff;
+  color: white;
+  text-shadow: 0 0 12px rgba(0,180,255,0.4);
 }
 
 .lead {
@@ -64,6 +74,7 @@ label {
   display: block;
   font-weight: 500;
   margin-bottom: 0.4rem;
+  color: var(--color-text);
 }
 
 input,
@@ -71,7 +82,7 @@ select {
   width: 100%;
   padding: 0.6rem 0.8rem;
   border-radius: var(--radius);
-  border: 1px solid #1f2937;
+  border: 1px solid rgba(255,255,255,0.08);
   background-color: #0f172a;
   color: var(--color-text);
   font-size: 0.95rem;
@@ -83,6 +94,7 @@ select:focus {
   outline: none;
   border-color: var(--color-primary);
   background-color: #1e293b;
+  box-shadow: 0 0 8px rgba(0,180,255,0.4);
 }
 
 /* ROWS FLEX */
@@ -116,12 +128,12 @@ select:invalid ~ .error {
 
 .terms {
   display: flex;
-  align-items: flex-start; /* Alinea el checkbox con la parte superior del texto */
+  align-items: flex-start;
   gap: 0.5rem;
 }
 
 .terms input[type="checkbox"] {
-  margin-top: 0.2rem; /* Ajusta según se vea */
+  margin-top: 0.2rem;
   flex-shrink: 0;
   width: 1.1rem;
   height: 1.1rem;
@@ -142,18 +154,19 @@ select:invalid ~ .error {
 .btn {
   flex: 1;
   padding: 0.7rem 1rem;
-  background-color: var(--color-primary);
+  background: linear-gradient(180deg, var(--color-primary), #0090d6);
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: background-color var(--transition), transform var(--transition);
+  transition: var(--transition);
 }
 
 .btn:hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, var(--color-primary-hover), #0bb8ff);
+  box-shadow: 0 0 16px rgba(0,180,255,0.6);
 }
 
 .btn.secondary {
