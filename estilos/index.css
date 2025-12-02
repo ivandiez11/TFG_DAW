@@ -158,3 +158,62 @@ h3{text-align:center;margin-bottom:18px;font-size:1.6rem;color:#ffffff;}
     font-size:1rem;
     color:#ffffff;
 }
+
+
+.final-score{
+    font-size:1.2rem;
+    font-weight:600;
+    color:var(--accent);
+    margin-top:10px;
+}
+
+.finalist button{
+    margin-top:14px;
+    padding:10px 16px;
+    background-color:var(--accent);
+    border:none;
+    border-radius:8px;
+    color:#ffffff;
+    font-size:1rem;
+    cursor:pointer;
+    transition:background-color 0.25s ease;
+}
+
+.finalist button:hover{
+    background-color:#e85a2b;
+}
+
+/* Estilos para la sección de ranking */
+#rankingTable{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:16px;
+}
+#rankingTable th, #rankingTable td{
+    border:1px solid #1e293b;
+    padding:12px;
+    text-align:left;
+}
+#rankingTable th{
+    background-color:#0b1220;
+    color:var(--accent);
+}
+#rankingTable tr:nth-child(even){
+    background-color:#071026;
+}
+#rankingTable tr:hover{
+    background-color:#1e293b;
+}
+#rankingTitle{
+    text-align:center;
+    font-size:1.5rem;
+    margin-bottom:12px;
+    color:#ffffff;
+}
+/* Estilos para mensajes */
+.message{
+    text-align:center;
+    font-size:1.1rem;
+    margin-top:16px;
+    color:var(--muted);
+}
