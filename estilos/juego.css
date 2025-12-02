@@ -1,29 +1,44 @@
-/* ====== VARIABLES GENERALES ====== */
+/* ============================================================
+   VARIABLES GENERALES — estilo TV concurso
+   ============================================================ */
 :root {
-  --color-bg: #0a0e1a;
-  --color-bg-card: #111827;
+  --color-bg: #081020;
+  --color-bg2: #0a1530;
+  --color-bg-card: #101a33;
   --color-text: #e5e7eb;
   --color-muted: #9ca3af;
-  --color-primary: #ff6b3d;
-  --color-primary-hover: #ff845a;
-  --radius: 12px;
-  --transition: 0.3s ease;
+  --color-primary: #00b4ff;         /* azul TV */
+  --color-primary-hover: #4cd2ff;
+  --color-correct: #1dd67d;
+  --color-wrong: #ff4d4f;
+  --color-money: #ffd166;
+  --radius: 14px;
+  --transition: 0.25s cubic-bezier(.2,.9,.2,1);
   font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* ====== BODY ====== */
+/* ============================================================
+   BODY Y FONDO TV
+   ============================================================ */
 body {
   margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(180deg, #0d1117 0%, #0a0e1a 100%);
+
+  background:
+      radial-gradient(1200px 600px at 10% 10%, rgba(0,180,255,0.08), transparent 10%),
+      linear-gradient(180deg, var(--color-bg), var(--color-bg2));
+
   color: var(--color-text);
-  padding-top: 140px; /* 🔥 más espacio entre h1 y el juego */
+
+  padding-top: 140px;
 }
 
-/* ====== TÍTULO FIJO ====== */
+/* ============================================================
+   TÍTULO PRINCIPAL
+   ============================================================ */
 h1 {
   position: fixed;
   top: 25px;
@@ -35,12 +50,152 @@ h1 {
   font-weight: 900;
   color: white;
   background: rgba(0, 0, 0, 0.45);
-  border-radius: 14px;
+  border-radius: var(--radius);
   backdrop-filter: blur(6px);
   z-index: 1000;
 }
 
-/* ====== BOTONES PRINCIPALES (COMENZAR / CONTINUAR / SALIR) ====== */
+/* ============================================================
+   CONTENEDOR PRINCIPAL DEL JUEGO
+   ============================================================ */
+#game {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 92%;
+  max-width: 750px;
+  min-height: 450px;
+  background-color: var(--color-bg-card);
+  padding: 2.3rem;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.55);
+}
+
+/* ============================================================
+   MODO DEL JUEGO
+   ============================================================ */
+#mode {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 6px 16px;
+  color: var(--color-primary);
+  border: 1px solid rgba(0,180,255,0.3);
+  background: rgba(0,180,255,0.1);
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+/* ============================================================
+   PREGUNTA - estilo TV tarjeta iluminada
+   ============================================================ */
+#question {
+  font-size: 1.9rem;
+  font-weight: 900;
+  margin: 0.5rem 0 1.2rem;
+  line-height: 1.4;
+
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+}
+
+/* ============================================================
+   RESPUESTAS — estilo TV botones grandes 2x2
+   ============================================================ */
+#answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+#answers button {
+  background: linear-gradient(180deg, #06263b, #083552);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.05);
+
+  padding: 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  min-height: 90px;
+  transition: var(--transition);
+  box-shadow: 0 8px 30px rgba(1,40,60,0.6);
+}
+
+#answers button:hover {
+  background-color: #0a4870;
+  transform: translateY(-6px) scale(1.02);
+}
+
+#answers button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
+
+/* --- acierto --- */
+#answers button.correct {
+  background: linear-gradient(180deg, rgba(30,200,140,0.2), rgba(30,200,140,0.1)) !important;
+  border-color: rgba(30,200,140,0.4);
+  color: #d4ffee;
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(0,255,160,0.2);
+}
+
+/* --- fallo --- */
+#answers button.wrong {
+  background: linear-gradient(180deg, rgba(255,70,70,0.18), rgba(255,70,70,0.08)) !important;
+  border-color: rgba(255,70,70,0.25);
+  color: #ffe5e5;
+  animation: shake 420ms ease;
+}
+
+/* vibración en error */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+/* ============================================================
+   HUD: VIDAS Y DINERO — estilo TV concurso
+   ============================================================ */
+#game p {
+  font-size: 1rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.money-box {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--color-money);
+  margin-top: 8px;
+  transition: 0.3s ease;
+}
+
+.money-box.anim {
+  animation: moneyPop 0.7s ease;
+}
+
+@keyframes moneyPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================================
+   BOTONES PRINCIPALES
+   ============================================================ */
 #start button,
 #menuEnd button {
   background-color: var(--color-primary);
@@ -51,7 +206,7 @@ h1 {
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: var(--transition);
   margin-top: 10px;
 }
 
@@ -61,82 +216,9 @@ h1 {
   transform: translateY(-3px);
 }
 
-/* ====== CONTENEDOR DEL JUEGO ====== */
-#game {
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  width: 92%;
-  max-width: 750px;
-  min-height: 450px;  /* 🔥 más grande */
-  background-color: var(--color-bg-card);
-  padding: 2.3rem;
-  border-radius: var(--radius);
-  text-align: center;
-}
-
-/* ====== TEXTO DEL MODO ====== */
-#mode {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: var(--color-primary);
-}
-
-/* ====== PREGUNTA ====== */
-#question {
-  font-size: 1.9rem;  /* 🔥 muy visible */
-  font-weight: 900;
-  color: white;
-  margin: 0.5rem 0 1.2rem;
-  line-height: 1.4;
-}
-
-/* ====== RESPUESTAS (CUADRÍCULA 2×2) ====== */
-#answers {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* 🔥 2 columnas */
-  gap: 1rem;
-  width: 100%;
-}
-
-#answers button {
-  background-color: #1f2937;
-  color: white;
-  border: 1px solid #374151;
-  padding: 1rem;
-  border-radius: var(--radius);
-  cursor: pointer;
-  text-align: center;
-  font-size: 1.05rem;
-  font-weight: 500;
-  min-height: 80px; /* 🔥 más grandes */
-  transition: 0.3s ease;
-}
-
-#answers button:hover {
-  background-color: #293548;
-  transform: translateY(-2px);
-}
-
-/* ====== BOTONES CORRECTO / INCORRECTO ====== */
-#answers button.correct {
-  background-color: green !important;
-  color: white;
-}
-
-#answers button.wrong {
-  background-color: red !important;
-  color: white;
-}
-
-/* ====== HUD (vidas, dinero) ====== */
-#game p {
-  font-size: 1rem;
-  color: var(--color-muted);
-  margin: 0;
-}
-
-/* ====== MENÚ FINAL ====== */
+/* ============================================================
+   MENÚ FINAL
+   ============================================================ */
 #menuEnd {
   text-align: center;
   margin-top: 40px;
@@ -146,4 +228,142 @@ h1 {
   padding: 14px 22px;
   font-size: 18px;
   margin: 10px;
+}
+
+/* ============================================================
+   FINAL SCREEN (victoria / derrota)
+   ============================================================ */
+.final-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(30,30,50,0.95), rgba(0,0,0,0.95));
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    animation: fadeIn 0.6s ease;
+    z-index: 9999;
+}
+
+.final-card {
+    background: linear-gradient(180deg, #111a2f, #0b1324);
+    padding: 45px 40px;
+    border-radius: 22px;
+    text-align: center;
+    width: 480px;
+    box-shadow: 0 0 40px rgba(0,150,255,0.5),
+                inset 0 0 20px rgba(255,255,255,0.04);
+    animation: popIn 0.45s ease;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.final-card h2 {
+    font-size: 2.4rem;
+    color: #fff;
+    text-shadow: 0 0 12px #00b3ff;
+    margin-bottom: 20px;
+    font-weight: 900;
+    animation: glowPulse 1.8s infinite ease-in-out;
+}
+
+.final-money {
+    font-size: 1.8rem;
+    color: #ffcf5c;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(255,200,100,0.7);
+}
+
+.go-home-btn {
+    background: linear-gradient(180deg, #ff7b39, #ff5a1f);
+    color: white;
+    border: none;
+    padding: 16px 25px;
+    font-size: 1.3rem;
+    border-radius: 14px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(255,120,60,0.6);
+    transition: 0.2s ease;
+}
+
+.go-home-btn:hover {
+    background: linear-gradient(180deg, #ffa361, #ff6f3a);
+    transform: translateY(-4px);
+    box-shadow: 0 0 28px rgba(255,140,70,0.85);
+}
+
+/* ====== ANIMACIONES ====== */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes glowPulse {
+    0% { text-shadow: 0 0 10px #00b3ff; }
+    50% { text-shadow: 0 0 22px #00d4ff; }
+    100% { text-shadow: 0 0 10px #00b3ff; }
+}
+
+/* ======================================================
+      HUD ESTILO TV — VIDAS ❤️ Y DINERO 💰
+   ====================================================== */
+
+.hud-bar {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 15px;
+}
+
+.hud-item {
+    font-size: 1.9rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ❤️ VIDAS */
+#hudLives {
+    color: #ff5e5e;
+}
+
+.life-heart {
+    font-size: 2rem !important;
+}
+
+/* 💰 DINERO */
+#hudMoney {
+    color: #f7d774;
+}
+
+.money-box,
+#hudMoney span {
+    font-size: 2rem !important;
+    font-weight: 900;
+}
+
+/* animación de pop al actualizar dinero */
+.money-anim {
+    animation: moneyPop 0.5s ease;
+}
+
+@keyframes moneyPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.25); }
+    100% { transform: scale(1); }
 }

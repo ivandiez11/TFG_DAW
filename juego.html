@@ -2,32 +2,64 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Juego Trivia</title>
+  <title>Juego de Preguntas</title>
   <link rel="stylesheet" href="estilos/juego.css">
 </head>
+
 <body>
 
-<h1>🎯 Juego de Preguntas</h1>
+  <!-- TÍTULO FIJO -->
+  <h1>🎯 Juego de Preguntas</h1>
 
-<div id="start">
-  <button id="startBtn">COMENZAR</button>
+  <!-- PANTALLA DE INICIO -->
+  <div id="start">
+    <button id="startBtn">COMENZAR</button>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL DEL JUEGO -->
+  <div id="game" style="display:none;">
+
+    <!-- MODO (FÁCIL, MEDIO, DIFÍCIL) -->
+    <div id="mode"></div>
+
+    <!-- PREGUNTA -->
+    <div id="question"></div>
+
+    <!-- RESPUESTAS -->
+    <div id="answers"></div>
+
+    <!-- HUD: VIDAS / DINERO -->
+    <div id="hud" class="hud-bar">
+    <div class="hud-item" id="hudLives">
+        <span id="lives"></span>
+    </div>
+
+    <div class="hud-item" id="hudMoney">
+        💰 <span id="money"></span>
+    </div>
 </div>
 
-<div id="game" style="display:none;">
-  <h2 id="mode"></h2>
-  <h3 id="question"></h3>
-  <div id="answers"></div>
-  <p>Vidas: <span id="lives"></span></p>
-  <p>Dinero: $<span id="money"></span></p>
-</div>
+  </div>
 
-<div id="menuEnd" style="display:none;">
-  <h2 id="endTitle"></h2>
-  <p id="endText"></p>
-  <button id="continueBtn">CONTINUAR</button>
-  <button id="exitBtn">RETIRARSE</button>
-</div>
+  <!-- MENÚ DE FIN DE MODO -->
+  <div id="menuEnd" style="display:none;">
+    <h2 id="endTitle"></h2>
+    <p id="endText"></p>
 
-<script type="module" src="scripts/juego.js"></script>
+    <button id="continueBtn">CONTINUAR</button>
+    <button id="exitBtn">RETIRARSE</button>
+  </div>
+
+  <!-- PANTALLA FINAL GLOBAL (GANAR / PERDER) -->
+  <div id="finalScreen" class="final-screen" style="display:none;">
+    <div class="final-card">
+      <h2 id="finalTitle">🏆 ¡Has terminado!</h2>
+      <p id="finalMoney" class="final-money"></p>
+
+      <button id="goHomeBtn" class="go-home-btn">Ir al inicio</button>
+    </div>
+  </div>
+
+  <script type="module" src="scripts/juego.js"></script>
 </body>
 </html>

@@ -1,19 +1,6 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "./firebaseConfig.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// Configuración de Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyBGlAxyLzrMPyTFK-HeHRAm2G76rz6YnrA",
-  authDomain: "tfg-milonario.firebaseapp.com",
-  projectId: "tfg-milonario",
-  storageBucket: "tfg-milonario.firebasestorage.app",
-  messagingSenderId: "527650063519",
-  appId: "1:527650063519:web:88d8f4e8ae254b8b728eaa",
-  measurementId: "G-EXHQ9RF0YM"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 // Función para guardar el resultado
 async function guardarResultado(usuario, puntuacion) {

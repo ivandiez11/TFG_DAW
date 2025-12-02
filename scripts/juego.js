@@ -2,8 +2,7 @@
 console.log("✅ juego.js cargado correctamente");
 
 import { db, auth } from "./firebaseConfig.js";
-import { collection, addDoc, doc, getDoc } 
-  from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import { collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("startBtn");
@@ -34,13 +33,13 @@ let answered = false;
 // MODOS DEL JUEGO
 // -----------------------
 const modes = [
-  { name: "FÁCIL", rounds: 5, difficulty: "easy", prize: 100, lives: 3 },
-  { name: "MEDIO", rounds: 3, difficulty: "medium", prize: 300, lives: 2 },
-  { name: "DIFÍCIL", rounds: 3, difficulty: "hard", prize: 1000, lives: 1 }
+  { name: "FÁCIL", rounds: 7, difficulty: "easy", prize: 10000, lives: 3 },
+  { name: "MEDIO", rounds: 5, difficulty: "medium", prize: 66000, lives: 2 },
+  { name: "DIFÍCIL", rounds: 3, difficulty: "hard", prize: 200000, lives: 1 }
 ];
 
 // -----------------------
-// GUARDAR PUNTUACIÓN EN FIRESTORE CON NOMBRE DE USUARIO
+// GUARDAR PUNTUACIÓN EN FIRESTORE
 // -----------------------
 async function guardarPuntuacion(score) {
   try {
@@ -48,7 +47,6 @@ async function guardarPuntuacion(score) {
     let username = "Anon";
 
     if (user) {
-      // Leer los datos del usuario desde Firestore
       const userDoc = await getDoc(doc(db, "usuarios", user.uid));
       if (userDoc.exists()) {
         const data = userDoc.data();
@@ -58,7 +56,6 @@ async function guardarPuntuacion(score) {
       }
     }
 
-    // Guardar score en Firestore
     await addDoc(collection(db, "scores"), {
       username: username,
       score: score,
@@ -99,17 +96,13 @@ async function loadQuestions(difficulty) {
   index = 0;
 }
 
+// -----------------------
+// MOSTRAR PREGUNTA
+// -----------------------
 function showQuestion() {
 
-  if (questionCount >= modes[modeIndex].rounds) {
-    modeEnd();
-    return;
-  }
-
-  if (index >= data.length) {
-    modeEnd();
-    return;
-  }
+  if (questionCount >= modes[modeIndex].rounds) return modeEnd();
+  if (index >= data.length) return modeEnd();
 
   answered = false;
 
@@ -131,6 +124,9 @@ function showQuestion() {
   });
 }
 
+// -----------------------
+// COMPROBAR RESPUESTA
+// -----------------------
 function checkAnswer(selectedBtn, correct) {
 
   if (answered) return;
@@ -144,7 +140,7 @@ function checkAnswer(selectedBtn, correct) {
     questionCount++;
   } else {
     selectedBtn.classList.add("wrong");
-    lives -= 1;
+    lives--;
 
     document.querySelectorAll("#answers button").forEach(btn => {
       if (btn.innerHTML === correct) btn.classList.add("correct");
@@ -155,24 +151,49 @@ function checkAnswer(selectedBtn, correct) {
   updateHUD();
 
   setTimeout(() => {
-
-    if (lives <= 0) {
-      gameOver();
-      return;
-    }
-
+    if (lives <= 0) return gameOver();
     showQuestion();
-
   }, 1000);
 }
 
+// -----------------------
+// HUD — VIDAS ❤️ Y DINERO 💰
+// -----------------------
 function updateHUD() {
-  const livesEl = document.getElementById("lives");
+  renderLives();
+
+  const moneyBox = document.getElementById("hudMoney");
   const moneyEl = document.getElementById("money");
-  if (livesEl) livesEl.innerText = lives;
-  if (moneyEl) moneyEl.innerText = money;
+
+  moneyEl.textContent = money;
+
+  moneyBox.classList.add("money-anim");
+  setTimeout(() => moneyBox.classList.remove("money-anim"), 500);
 }
 
+function renderLives() {
+  const livesEl = document.getElementById("lives");
+  livesEl.innerHTML = "";
+
+  for (let i = 0; i < lives; i++) {
+    const heart = document.createElement("span");
+    heart.classList.add("life-heart");
+    heart.textContent = "❤️";
+    livesEl.appendChild(heart);
+  }
+
+  for (let i = lives; i < modes[modeIndex].lives; i++) {
+    const heart = document.createElement("span");
+    heart.classList.add("life-heart");
+    heart.style.opacity = "0.25";
+    heart.textContent = "❤️";
+    livesEl.appendChild(heart);
+  }
+}
+
+// -----------------------
+// FIN DE MODO
+// -----------------------
 function modeEnd() {
   document.getElementById("game").style.display = "none";
   document.getElementById("menuEnd").style.display = "block";
@@ -184,10 +205,7 @@ function modeEnd() {
   document.getElementById("continueBtn").onclick = () => {
     modeIndex++;
 
-    if (modeIndex >= modes.length) {
-      endGame();
-      return;
-    }
+    if (modeIndex >= modes.length) return endGame();
 
     document.getElementById("menuEnd").style.display = "none";
     document.getElementById("game").style.display = "block";
@@ -198,31 +216,56 @@ function modeEnd() {
   document.getElementById("exitBtn").onclick = endGame;
 }
 
+// -----------------------
+// GAME OVER
+// -----------------------
 function gameOver() {
-  document.getElementById("game").style.display = "none";
-  document.getElementById("menuEnd").style.display = "block";
-
-  document.getElementById("endTitle").innerText = "💀 ELIMINADO";
-  document.getElementById("endText").innerText = "Has perdido todas las vidas.\nPierdes tu dinero.";
-
-  document.getElementById("continueBtn").style.display = "none";
-
-  document.getElementById("exitBtn").innerText = "REINICIAR";
-  document.getElementById("exitBtn").onclick = () => location.reload();
+  showLoseScreen();
 }
 
+// -----------------------
+// FIN DEL JUEGO
+// -----------------------
 function endGame() {
 
-  // Guardar puntuación con el nombre del usuario
   guardarPuntuacion(money);
 
   document.getElementById("game").style.display = "none";
-  document.getElementById("menuEnd").style.display = "block";
+  document.getElementById("menuEnd").style.display = "none";
 
-  document.getElementById("endTitle").innerText = "🏆 ENHORABUENA";
-  document.getElementById("endText").innerText = `Terminaste el juego con $${money}`;
+  const screen = document.getElementById("finalScreen");
+  const moneyText = document.getElementById("finalMoney");
 
-  document.getElementById("continueBtn").style.display = "none";
-  document.getElementById("exitBtn").innerText = "JUGAR DE NUEVO";
-  document.getElementById("exitBtn").onclick = () => location.reload();
+  moneyText.innerText = `Has ganado un total de $${money}`;
+
+  screen.style.display = "flex";
+
+  document.getElementById("goHomeBtn").onclick = () => {
+    window.location.href = "index.html";
+  };
+}
+
+// -----------------------
+// PANTALLA DE DERROTA
+// -----------------------
+function showLoseScreen() {
+
+  document.getElementById("game").style.display = "none";
+  document.getElementById("menuEnd").style.display = "none";
+
+  const screen = document.getElementById("finalScreen");
+  const title = document.getElementById("finalTitle");
+  const moneyText = document.getElementById("finalMoney");
+
+  title.innerText = "💀 ¡Has sido eliminado!";
+
+  moneyText.innerText =
+    `Perdiste esta vez... pero cada derrota es una oportunidad de mejorar 💪\n` +
+    `¡No te rindas, el millón te espera!`;
+
+  screen.style.display = "flex";
+
+  document.getElementById("goHomeBtn").onclick = () => {
+    window.location.href = "index.html";
+  };
 }
