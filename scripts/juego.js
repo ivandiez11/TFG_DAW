@@ -33,9 +33,9 @@ let answered = false;
 // MODOS DEL JUEGO
 // -----------------------
 const modes = [
-  { name: "EASY", rounds: 7, difficulty: "easy", prize: 10000, lives: 3 },
-  { name: "MEDIUM", rounds: 5, difficulty: "medium", prize: 66000, lives: 2 },
-  { name: "HARD", rounds: 3, difficulty: "hard", prize: 200000, lives: 1 }
+  { name: "EASY LEVEL", rounds: 7, difficulty: "easy", prize: 10000, lives: 3 },
+  { name: "MEDIUM LEVEL", rounds: 5, difficulty: "medium", prize: 66000, lives: 2 },
+  { name: "HARD LEVEL", rounds: 3, difficulty: "hard", prize: 200000, lives: 1 }
 ];
 
 // -----------------------
@@ -108,7 +108,7 @@ function showQuestion() {
 
   const q = data[index];
 
-  document.getElementById("mode").innerText = `Modo ${modes[modeIndex].name}`;
+  document.getElementById("mode").innerText = `${modes[modeIndex].name}`;
   document.getElementById("question").innerHTML = q.question;
 
   const answers = [...q.incorrect_answers, q.correct_answer].sort(() => Math.random() - 0.5);
@@ -201,7 +201,6 @@ function modeEnd() {
   document.getElementById("endTitle").innerText = "✅ DIFFICULTY LEVEL COMPLETED";
   document.getElementById("endText").innerText = `Current money: $${money}`;
 
-  document.getElementById("continueBtn").style.display = "block";
   document.getElementById("continueBtn").onclick = () => {
     modeIndex++;
 
