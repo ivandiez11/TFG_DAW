@@ -40,13 +40,13 @@ function showFeedback(text, ok = false) {
 
 // 🔹 Validación del formulario
 function validateFields() {
-    if (!els.nombre.value.trim()) return "Introduce tu nombre.";
-    if (!els.apellido.value.trim()) return "Introduce tu apellido.";
-    if (!els.email.checkValidity()) return "Introduce un correo válido.";
-    if (!els.usuario.checkValidity()) return els.usuario.title || "Nombre de usuario inválido.";
-    if (els.password.value.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
-    if (els.confirm.value !== els.password.value) return "Las contraseñas no coinciden.";
-    if (!els.terms.checked) return "Debes aceptar los términos y condiciones.";
+    if (!els.nombre.value.trim()) return "Insert your name.";
+    if (!els.apellido.value.trim()) return "Insert your last name.";
+    if (!els.email.checkValidity()) return "Enter a valid email.";
+    if (!els.usuario.checkValidity()) return els.usuario.title || "Invalid username.";
+    if (els.password.value.length < 8) return "Password must be at least 8 characters and a number.";
+    if (els.confirm.value !== els.password.value) return "Passwords do not match.";
+    if (!els.terms.checked) return "You must accept the terms and conditions.";
 
     return null;
 }

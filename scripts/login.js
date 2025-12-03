@@ -35,11 +35,11 @@ import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/1
         }
 
         if (!pwdRule.test(value)) {
-            pwd.setCustomValidity('Debe contener mayúscula y un número.');
-            showMessage('Debe contener mayúscula y un número.', false);
+            pwd.setCustomValidity('Must contain an uppercase letter and a number.');
+            showMessage('Must contain an uppercase letter and a number.', false);
         } else {
             pwd.setCustomValidity('');
-            showMessage('Contraseña válida.', true);
+            showMessage('Valid password.', true);
         }
     }
 
@@ -57,7 +57,7 @@ import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/1
         validatePwd();
 
         if (!form.checkValidity()) {
-            showServerMessage("Formulario inválido.");
+            showServerMessage("Invalid form.");
             return;
         }
 
@@ -80,17 +80,17 @@ import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/1
             }, 300);
 
         } catch (error) {
-            let msg = "Error inesperado";
+            let msg = "Some of the data is incorrect.";
 
             switch (error.code) {
                 case "auth/invalid-email":
-                    msg = "Correo inválido.";
+                    msg = "Invalid email.";
                     break;
                 case "auth/user-not-found":
-                    msg = "Usuario no encontrado.";
+                    msg = "User not found.";
                     break;
                 case "auth/wrong-password":
-                    msg = "Contraseña incorrecta.";
+                    msg = "Incorrect password.";
                     break;
             }
 

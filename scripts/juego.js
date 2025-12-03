@@ -33,9 +33,9 @@ let answered = false;
 // MODOS DEL JUEGO
 // -----------------------
 const modes = [
-  { name: "FÁCIL", rounds: 7, difficulty: "easy", prize: 10000, lives: 3 },
-  { name: "MEDIO", rounds: 5, difficulty: "medium", prize: 66000, lives: 2 },
-  { name: "DIFÍCIL", rounds: 3, difficulty: "hard", prize: 200000, lives: 1 }
+  { name: "EASY", rounds: 7, difficulty: "easy", prize: 10000, lives: 3 },
+  { name: "MEDIUM", rounds: 5, difficulty: "medium", prize: 66000, lives: 2 },
+  { name: "HARD", rounds: 3, difficulty: "hard", prize: 200000, lives: 1 }
 ];
 
 // -----------------------
