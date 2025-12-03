@@ -198,8 +198,8 @@ function modeEnd() {
   document.getElementById("game").style.display = "none";
   document.getElementById("menuEnd").style.display = "block";
 
-  document.getElementById("endTitle").innerText = "✅ MODO SUPERADO";
-  document.getElementById("endText").innerText = `Dinero actual: $${money}`;
+  document.getElementById("endTitle").innerText = "✅ DIFFICULTY LEVEL COMPLETED";
+  document.getElementById("endText").innerText = `Current money: $${money}`;
 
   document.getElementById("continueBtn").style.display = "block";
   document.getElementById("continueBtn").onclick = () => {
@@ -212,7 +212,7 @@ function modeEnd() {
     loadMode();
   };
 
-  document.getElementById("exitBtn").innerText = "SALIR";
+  document.getElementById("exitBtn").innerText = "EXIT";
   document.getElementById("exitBtn").onclick = endGame;
 }
 
@@ -224,7 +224,7 @@ function gameOver() {
 }
 
 // -----------------------
-// FIN DEL JUEGO
+// END OF GAME
 // -----------------------
 function endGame() {
 
@@ -236,7 +236,7 @@ function endGame() {
   const screen = document.getElementById("finalScreen");
   const moneyText = document.getElementById("finalMoney");
 
-  moneyText.innerText = `Has ganado un total de $${money}`;
+  moneyText.innerText = `You have won a total of $${money}`;
 
   screen.style.display = "flex";
 
@@ -257,12 +257,11 @@ function showLoseScreen() {
   const title = document.getElementById("finalTitle");
   const moneyText = document.getElementById("finalMoney");
 
-  title.innerText = "💀 ¡Has sido eliminado!";
+  title.innerText = "💀 You have been eliminated!";
 
   moneyText.innerText =
-    `Perdiste esta vez... pero cada derrota es una oportunidad de mejorar 💪\n` +
-    `¡No te rindas, el millón te espera!`;
-
+    `You lost this time... but every defeat is an opportunity to improve 💪\n` +
+    `Don't give up, the million awaits you!`;
   screen.style.display = "flex";
 
   document.getElementById("goHomeBtn").onclick = () => {

@@ -28,7 +28,7 @@ if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
         try {
             await signOut(auth);
-            alert("Has cerrado sesión correctamente.");
+            //alert("Has cerrado sesión correctamente.");
             window.location.href = "login.html";
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
