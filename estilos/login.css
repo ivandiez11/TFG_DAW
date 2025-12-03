@@ -1,13 +1,13 @@
-/* ====== ESTILO LOGIN OSCURO ====== */
+/* ====== ESTILO LOGIN ADAPTADO — ESTÉTICA JUEGO ====== */
 :root {
-  --color-bg: #0a0e1a;
-  --color-bg-card: #111827;
+  --color-bg: #081020;
+  --color-bg-card: #101a33;
   --color-text: #e5e7eb;
   --color-muted: #9ca3af;
-  --color-primary: #ff6b3d;
-  --color-primary-hover: #ff845a;
-  --radius: 12px;
-  --transition: 0.3s ease;
+  --color-primary: #00b4ff;
+  --color-primary-hover: #4cd2ff;
+  --radius: 14px;
+  --transition: 0.25s ease;
   font-family: 'Inter', system-ui, sans-serif;
 }
 
@@ -17,26 +17,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #0d1117 0%, #0a0e1a 100%);
+  background:
+    radial-gradient(900px 400px at 20% 5%, rgba(0,180,255,0.10), transparent 40%),
+    linear-gradient(180deg, var(--color-bg), #0a1530);
   color: var(--color-text);
 }
 
 main.card {
-  background-color: var(--color-bg-card);
+  background: var(--color-bg-card);
   padding: 2.5rem;
   border-radius: var(--radius);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.05);
   max-width: 400px;
   width: 90%;
   text-align: center;
   animation: fadeIn 0.8s ease forwards;
+  transition: var(--transition);
+}
+
+main.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,180,255,0.25);
 }
 
 h1 {
   margin-bottom: 0.5rem;
   font-size: 1.8rem;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 12px rgba(0,180,255,0.4);
 }
 
 .lead {
@@ -61,7 +71,7 @@ input {
   width: 100%;
   padding: 0.6rem 0.8rem;
   border-radius: var(--radius);
-  border: 1px solid #1f2937;
+  border: 1px solid rgba(255,255,255,0.08);
   background-color: #0f172a;
   color: var(--color-text);
   font-size: 0.95rem;
@@ -72,30 +82,33 @@ input:focus {
   outline: none;
   border-color: var(--color-primary);
   background-color: #1e293b;
+  box-shadow: 0 0 8px rgba(0,180,255,0.4);
 }
 
 button {
-  background-color: var(--color-primary);
+  background: linear-gradient(180deg, var(--color-primary), #0090d6);
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.7rem 1.2rem;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
   width: 100%;
-  transition: background-color var(--transition), transform var(--transition);
+  transition: var(--transition);
 }
 
 button:hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, var(--color-primary-hover), #0bb8ff);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(0,180,255,0.6);
 }
 
 button.show-toggle {
   width: auto;
   padding: 0.5rem 0.8rem;
   background-color: transparent;
-  color: var(--color-primary);
+  color: white;
   border: 1px solid var(--color-primary);
   font-size: 0.85rem;
   transition: all var(--transition);

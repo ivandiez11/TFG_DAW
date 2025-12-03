@@ -1,89 +1,229 @@
-:root{
---bg:#0f1724;
---card:#0b1220;
---muted:#9aa4b2;
---accent:#ff6b35;
---glass: rgba(255,255,255,0.03);
---radius:14px;
---gap:1rem;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-margin:0;
-font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-background:linear-gradient(180deg,var(--bg),#071026);
-color:#e6eef6;
--webkit-font-smoothing:antialiased;
+/* ============================================================
+   VARIABLES — mismas del juego, pero adaptadas a web
+   ============================================================ */
+:root {
+  --color-bg: #081020;
+  --color-bg2: #0a1530;
+  --color-card: #101a33;
+  --color-text: #e5e7eb;
+  --color-muted: #9ca3af;
+  --color-primary: #00b4ff;   
+  --color-primary-hover: #4cd2ff;
+  --color-accent: #ff7b39;    
+  --radius: 14px;
+  --transition: 0.25s ease;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-.container{max-width:1100px;margin:0 auto;padding:1rem}
-.site-header{backdrop-filter: blur(6px);position:sticky;top:0;background:linear-gradient(180deg, rgba(0,0,0,0.35), transparent);z-index:20}
-.site-header .container{display:flex;align-items:center;gap:1rem;padding:0.75rem}
-.logo{margin:0;font-size:1.25rem}
-.menu-btn{display:none;background:none;border:0;color:inherit;font-size:1.25rem}
-.main-nav{margin-left:auto;display:flex;gap:1rem}
-.main-nav a{color:var(--muted);text-decoration:none;padding:0.5rem;border-radius:8px}
-.main-nav a:hover{color:var(--accent)}
-.hero{padding:3rem 0;text-align:center}
-.hero h2{font-size:2rem;margin:0 0 .25rem}
-.hero p{margin:0 0 1rem;color:var(--muted)}
-.btn{display:inline-block;padding:.6rem 1rem;border-radius:12px;background:var(--accent);color:#fff;text-decoration:none;border:0;cursor:pointer}
-.btn.ghost{background:transparent;border:1px solid var(--accent)}
-.btn.small{padding:.35rem .6rem;font-size:.9rem;border-radius:8px}
-.section{padding:2rem 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--gap)}
-.card{background:var(--card);padding:1rem;border-radius:var(--radius);box-shadow:0 6px 20px rgba(2,6,23,0.6)}
-.card h4{margin:.25rem 0}
-.muted{color:var(--muted);font-size:.95rem}
-.schedule{list-style:none;padding:0;margin:0;display:grid;gap:.5rem}
-.schedule li{background:var(--glass);padding:.75rem;border-radius:10px}
-.controls{margin-bottom:.75rem}
-.controls input{width:100%;padding:.6rem;border-radius:10px;border:0;background:#051523;color:inherit}
-.contact form{display:grid;gap:.5rem}
-.contact input,.contact textarea{padding:.6rem;border-radius:8px;border:0;background:#051523;color:inherit}
-.site-footer{padding:1rem 0;color:var(--muted)}
+/* ============================================================
+   BODY — estilo más claro pero coherente con el juego
+   ============================================================ */
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 400px at 20% 5%, rgba(0,180,255,0.10), transparent 40%),
+    linear-gradient(180deg, var(--color-bg), var(--color-bg2));
+  color: var(--color-text);
+  min-height: 100vh;
+}
 
-/* Contenedor principal de la final */
-h3 { text-align:center; margin-bottom:18px; font-size:1.6rem; color:#ffffff; }
+/* ============================================================
+   HEADER — limpio, brillante y TV
+   ============================================================ */
+.site-header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  background: rgba(10,20,40,0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  z-index: 20;
+}
 
-#granFinal.horizontal-grid {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    gap: 24px;
-    overflow: hidden;
-    flex-wrap: wrap;
-    padding: 14px 0;
+.header-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
-#granFinal .card.finalist {
-    flex: 1 1 360px;
-    max-width: 420px;
-    background-color: #071026;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    font-size: 1.03rem;
+
+/* Logo */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0,180,255,0.4);
 }
-#granFinal .card.finalist:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+/* Nav */
+.main-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
 }
-.contestant-photo {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 8px;
+
+.main-nav a {
+  color: var(--color-muted);
+  font-size: 1rem;
+  padding: 8px 10px;
+  text-decoration: none;
+  transition: var(--transition);
 }
-.final-header {
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding-bottom:6px;
+
+.main-nav a:hover {
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(0,180,255,0.6);
 }
-.final-meta { margin-top:14px; font-size:1rem; color:#ffffff; }
+
+/* Botón cerrar sesión */
+.logout-top-btn {
+  background: #d93636;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.logout-top-btn:hover {
+  background: #ff5757;
+}
+
+/* ============================================================
+   HERO — estilo TV moderno, más claro y elegante
+   ============================================================ */
+.hero {
+  text-align: center;
+  padding: 90px 20px 40px;
+}
+
+.hero-title {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 18px rgba(0,180,255,0.4);
+}
+
+.hero-title span {
+  color: var(--color-primary);
+}
+
+.hero-sub {
+  margin-top: 12px;
+  font-size: 1.15rem;
+  color: var(--color-muted);
+}
+
+/* ============================================================
+   CARD — igual estilo de tarjetas que el juego
+   ============================================================ */
+.card {
+  background: var(--color-card);
+  padding: 22px;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,180,255,0.25);
+}
+
+/* ============================================================
+   SECCIONES
+   ============================================================ */
+.section {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* ============================================================
+   BOTÓN PRINCIPAL
+   ============================================================ */
+.btn.primary {
+  background: linear-gradient(180deg, #00b4ff, #0090d6);
+  padding: 12px 20px;
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: var(--transition);
+}
+
+.btn.primary:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(180deg, #4cd2ff, #0bb8ff);
+  box-shadow: 0 0 16px rgba(0,180,255,0.6);
+}
+
+/* ============================================================
+   RANKING GRID
+   ============================================================ */
+.ranking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+/* ================================
+   CENTRAR BOTÓN INICIO
+   ================================ */
+/* Forzar centrado del botón de "Jugar ahora" */
+#jugar_ahora .card, 
+#jugar_ahora .card .actions {
+  width: 100%;
+  display: block;
+}
+
+#jugar_ahora .actions {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding-top: 0.5rem;
+}
+
+/* Asegurar que el enlace botón no ocupe todo el ancho */
+#jugar_ahora .actions .big-btn {
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: auto !important;
+  min-width: 220px;          /* opcional: ancho mínimo del botón */
+  margin: 0 !important;
+  text-align: center !important;
+}
+
+/* Si el botón tuviera display:block heredado, lo anulamos */
+#jugar_ahora .actions a.big-btn {
+  display: inline-flex !important;
+}
+
+/* Si usas .btn.primary en otros sitios, esto no cambiará su estilo global */
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  padding: 25px 0;
+  margin-top: 40px;
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}

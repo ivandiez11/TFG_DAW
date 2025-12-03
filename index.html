@@ -1,97 +1,111 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>El juego de un millón — Inicio</title>
+
 <link rel="stylesheet" href="estilos/index.css">
+<link rel="stylesheet" href="estilos/logout.css">
+
 </head>
 <body>
-<header class="site-header">
-<div class="container">
-<h1 class="logo">💰 El juego de un millón</h1>
-<button id="botonMenu" class="menu-btn" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú">☰</button>
-<nav id="mainNav" class="main-nav" role="navigation">
 
-<a href="#reglas">Reglas</a>
-<a href="#concursantes">Concursantes</a>
-<a href="#preguntas">Preguntas Frecuentes</a>
-<a href="login.html">Iniciar Sesión</a>
-</nav>
-</div>
+<!-- ===================== HEADER ===================== -->
+<header class="site-header">
+    <div class="header-container">
+        <h1 class="logo">💰 El juego del millón</h1>
+
+        <nav id="mainNav" class="main-nav">
+            <a href="#inicio">Start</a>
+            <a href="#reglas">Rules</a>
+            <a href="#concursantes">Ranking</a>
+            <a href="#preguntas">FAQ</a>
+        </nav>
+
+        <button id="logoutBtn" class="logout-top-btn">Log out</button>
+    </div>
 </header>
 
+<!-- ===================== HERO ===================== -->
 <main>
 <section id="inicio" class="hero">
-<div class="container"></div>
-<h2>Bienvenido a "El juego del millón"</h2>
-<p>Participa, responde y compite por el gran premio. Conoce a los concursantes, las rondas y sigue la final en vivo.</p>
+    <h2 class="hero-title">Welcome to <span>"El juego del millón"</span></h2>
+    <p class="hero-sub">Participate, answer, and compete for the grand prize.</p>
 </section>
 
-<section id="jugar_ahora" class="section container" role="region" aria-labelledby="jugarAhoraTitle" style="display:flex;flex-direction:column;align-items:center;">
-    <h3 id="jugarAhoraTitle" style="text-align:center;">¡Jugar ahora!</h3>
-    <div class="card play-now" style="text-align:center;max-width:720px;width:100%;">
-        <p class="muted">¿Listo para competir por el millón? Pulsa el botón para empezar la partida.</p>
+<!-- ===================== JUGAR AHORA ===================== -->
+<section id="jugar_ahora" class="section container fade-card">
+    <h3 class="section-title">🎮 Play now!</h3>
+
+    <div class="card play-now">
+        <p class="muted">Press the button to start the game.</p>
         <div class="actions">
-            <a id="btnJugarAhora" class="btn primary" href="juego.html" role="button" aria-label="Iniciar juego">Inicio</a>
+            <a id="btnJugarAhora" class="btn primary big-btn" href="juego.html">
+                🚀 Start game
+            </a>
         </div>
     </div>
 </section>
 
-<section id="reglas" class="section container">
-<h3>Reglas del juego</h3>
-<div class="card">
-    <p class="muted">Objetivo: Responder correctamente a preguntas de distintas categorías para avanzar rondas y alcanzar el bote final.</p>
-    <ul>
-        <li>Fases: Fase fácil (7 preguntas), Fase media (5 preguntas), Fase difícil (3 preguntas), Gran final (1 pregunta).</li>
-        <li>Tiempo por pregunta: 30 segundos.</li>
-        <li>Ayudas: 2 comodines por concursante.</li>
-    </ul>
-</div>
+<!-- ===================== RANKING ===================== -->
+<section id="concursantes" class="section container fade-card">
+    <h3 class="section-title">🏆 Top 10 Contestants</h3>
+    <div id="panelConcursantes" class="grid ranking-grid"></div>
 </section>
 
-<section id="concursantes" class="section container">
-<h3>Concursantes</h3>
-<div id="panelConcursantes" class="grid" aria-live="polite"></div>
+<!-- ===================== RULES ===================== -->
+<section id="reglas" class="section container fade-card">
+    <h3 class="section-title">📘 Game Rules</h3>
+    <div class="card">
+        <p class="muted">
+            Your goal is to answer correctly to advance through the contest phases:
+        </p>
+        <ul>
+            <li>Easy phase — 7 questions</li>
+            <li>Medium phase — 5 questions</li>
+            <li>Hard phase — 3 questions</li>
+        </ul>
+    </div>
 </section>
 
-<section id="preguntas" class="section container">
-<h3>Preguntas Frecuentes</h3>
-<div class="card">
-    <details class="collapsible">
-        <summary aria-controls="detallesReglas" aria-expanded="false">¿Puedo retirarme a mitad del juego?</summary>
-        <div id="detallesReglas" role="region">
-            <p class="muted">Sí, puedes retirarte en cualquier momento. Sin embargo, si lo haces, perderás la oportunidad de ganar el premio acumulado.</p>
-        </div>
-    </details>
+<!-- ===================== FAQ ===================== -->
+<section id="preguntas" class="section container fade-card">
+    <h3 class="section-title">❓ Frequently Asked Questions</h3>
 
-    <details class="collapsible">
-        <summary aria-controls="detallesComodines" aria-expanded="false">¿Cómo funcionan los comodines?</summary>
-        <div id="detallesComodines" role="region">
-            <p class="muted">Cada concursante dispone de 2 comodines que pueden usar para saltarse una pregunta o pedir ayuda. Los comodines no son acumulativos y deben usarse antes de responder.</p>
-        </div>
-    </details>
-
-    <details class="collapsible">
-        <summary aria-controls="detallesInscripcion" aria-expanded="false">¿Cómo me inscribo para participar?</summary>
-        <div id="detallesInscripcion" role="region">
-            <p class="muted">Para jugar deber registrarte previamente en nuestra página web. Si ya estás registrado, puedes iniciar sesión para participar en el juego.</p>
-        </div>
-    </details>
-
-</div>
+    <div class="card">
+        <details>
+            <summary>Can I quit in the middle of the game?</summary>
+            <p class="muted">
+                Yes. Between phases, you can quit and keep your accumulated winnings.
+            </p>
+        </details>
+        <details>
+            <summary>Can I play multiple times?</summary>
+            <p class="muted">
+                Yes, you can play the game as many times as you want.
+            </p>
+        </details>
+        <details>
+            <summary>Is the ranking updated automatically?</summary>
+            <p class="muted">
+                Yes, the top 10 players are displayed in real time.
+            </p>
+        </details>
+    </div>
 </section>
+
 </main>
 
+<!-- ===================== FOOTER ===================== -->
 <footer class="site-footer">
-<div class="container"></div>
-<div style="text-align:center;">
-    <small>© <span id="year"></span> El juego de un millón — Iván y Alberto</small>
-</div>
-</div>
+    <div style="text-align:center;">
+        <small>© <span id="year"></span> El juego de un millón — Iván y Alberto</small>
+    </div>
 </footer>
 
-    <script src="scripts/script.js"></script>
+<script type="module" src="scripts/index.js"></script>
+<script type="module" src="scripts/logout.js"></script>
+<script type="module" src="scripts/ranking.js"></script>
 
 </body>
 </html>

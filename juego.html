@@ -1,25 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Juego del Millón 💰</title>
-  <link rel="stylesheet" href="estilos/juego.css" />
+  <meta charset="UTF-8">
+  <title>Questions Game</title>
+  <link rel="stylesheet" href="estilos/juego.css">
 </head>
+
 <body>
-  <div class="container">
-    <h1>Juego del Millón 💰</h1>
-    <div id="question-container">
-      <h2 id="question">Cargando preguntas...</h2>
-      <div id="answer-buttons" class="btn-grid"></div>
+
+  <!-- TÍTULO FIJO -->
+  <h1>🎯 Questions Game</h1>
+
+  <!-- PANTALLA DE INICIO -->
+  <div id="start">
+    <button id="startBtn">START</button>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL DEL JUEGO -->
+  <div id="game" style="display:none;">
+
+    <!-- MODO (FÁCIL, MEDIO, DIFÍCIL) -->
+    <div id="mode"></div>
+
+    <!-- PREGUNTA -->
+    <div id="question"></div>
+
+    <!-- RESPUESTAS -->
+    <div id="answers"></div>
+
+    <!-- HUD: VIDAS / DINERO -->
+    <div id="hud" class="hud-bar">
+    <div class="hud-item" id="hudLives">
+        <span id="lives"></span>
     </div>
 
-    <div class="controls">
-      <p>Puntaje: <span id="score">0</span></p>
-      <button id="next-btn" class="next-btn">Siguiente</button>
+    <div class="hud-item" id="hudMoney">
+        💰 <span id="money"></span>
+    </div>
+</div>
+
+  </div>
+
+  <!-- MENÚ DE FIN DE MODO -->
+  <div id="menuEnd" style="display:none;">
+    <h2 id="endTitle"></h2>
+    <p id="endText"></p>
+
+    <button id="continueBtn">CONTINUE</button>
+    <button id="exitBtn">QUIT</button>
+  </div>
+
+  <!-- PANTALLA FINAL GLOBAL (GANAR / PERDER) -->
+  <div id="finalScreen" class="final-screen" style="display:none;">
+    <div class="final-card">
+      <h2 id="finalTitle">🏆 You have finished!</h2>
+      <p id="finalMoney" class="final-money"></p>
+
+      <button id="goHomeBtn" class="go-home-btn">Go to home</button>
     </div>
   </div>
 
-  <script src="scripts/juego.js"></script>
+  <script type="module" src="scripts/juego.js"></script>
 </body>
 </html>

@@ -1,76 +1,101 @@
- // Comportamiento mínimo: toggle de visibilidad y validación simple con feedback visible
-        (function(){
-            var form = document.getElementById('loginForm');
-            var pwd = document.getElementById('password');
-            var toggle = document.getElementById('togglePwd');
-            var result = document.getElementById('validationResult');
+// scripts/login.js
+import { auth } from "./firebaseConfig.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-            // Validación: al menos una mayúscula y un número
-            var pwdRule = /(?=.*[A-Z])(?=.*\d)/;
+(function() {
 
-            function showMessage(message, ok) {
-                result.textContent = message || '';
-                result.style.color = ok ? '#047857' : '#b91c1c'; // verde oscuro / rojo
+    const form = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+    const pwd = document.getElementById('password');
+    const toggle = document.getElementById('togglePwd');
+    const result = document.getElementById('validationResult');
+    const serverMsg = document.getElementById('serverMsg');
+
+    const pwdRule = /(?=.*[A-Z])(?=.*\d)/;
+
+    function showMessage(message, ok) {
+        result.textContent = message || '';
+        result.style.color = ok ? '#047857' : '#b91c1c';
+    }
+
+    function showServerMessage(text, ok = false) {
+        if (!serverMsg) return;
+        serverMsg.textContent = text;
+        serverMsg.style.color = ok ? '#047857' : '#b91c1c';
+        serverMsg.style.display = 'block';
+    }
+
+    function validatePwd() {
+        const value = pwd.value || '';
+
+        if (value.length === 0) {
+            pwd.setCustomValidity('');
+            showMessage('');
+            return;
+        }
+
+        if (!pwdRule.test(value)) {
+            pwd.setCustomValidity('Debe contener mayúscula y un número.');
+            showMessage('Debe contener mayúscula y un número.', false);
+        } else {
+            pwd.setCustomValidity('');
+            showMessage('Contraseña válida.', true);
+        }
+    }
+
+    pwd.addEventListener('input', validatePwd);
+
+    toggle.addEventListener('click', function() {
+        const isHidden = pwd.type === 'password';
+        pwd.type = isHidden ? 'text' : 'password';
+        toggle.textContent = isHidden ? 'Ocultar' : 'Mostrar';
+        toggle.setAttribute('aria-pressed', String(isHidden));
+    });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        validatePwd();
+
+        if (!form.checkValidity()) {
+            showServerMessage("Formulario inválido.");
+            return;
+        }
+
+        const emailVal = email.value.trim();
+        const passwordVal = pwd.value;
+
+        try {
+            const credential = await signInWithEmailAndPassword(auth, emailVal, passwordVal);
+
+            // ⬅️ MOSTRAR USUARIO COMPLETO EN CONSOLA
+            console.log("Usuario logueado:", credential.user);
+            console.log("UID:", credential.user.uid);
+            console.log("Email:", credential.user.email);
+
+            showServerMessage("¡Inicio correcto!", true);
+
+            // ⬅️ REDIRECCIÓN A INDEX
+            setTimeout(() => {
+                window.location.href = "../index.html";
+            }, 300);
+
+        } catch (error) {
+            let msg = "Error inesperado";
+
+            switch (error.code) {
+                case "auth/invalid-email":
+                    msg = "Correo inválido.";
+                    break;
+                case "auth/user-not-found":
+                    msg = "Usuario no encontrado.";
+                    break;
+                case "auth/wrong-password":
+                    msg = "Contraseña incorrecta.";
+                    break;
             }
 
-            function validatePwd() {
-                var value = pwd.value || '';
-                if (value.length === 0) {
-                    pwd.setCustomValidity('');
-                    showMessage(''); // dejar el área vacía cuando no hay input
-                    return;
-                }
-                if (!pwdRule.test(value)) {
-                    pwd.setCustomValidity('La contraseña debe contener al menos una mayúscula y un número.');
-                    showMessage('La contraseña debe contener al menos una mayúscula y un número.', false);
-                } else {
-                    pwd.setCustomValidity('');
-                    showMessage('Contraseña válida.', true);
-                }
-            }
+            showServerMessage(msg);
+        }
+    });
 
-            // Validar mientras el usuario escribe para feedback inmediato
-            pwd.addEventListener('input', function(){
-                validatePwd();
-            });
-
-            toggle.addEventListener('click', function(){
-                var isHidden = pwd.type === 'password';
-                pwd.type = isHidden ? 'text' : 'password';
-                toggle.textContent = isHidden ? 'Ocultar' : 'Mostrar';
-                toggle.setAttribute('aria-pressed', String(isHidden));
-            });
-
-            function gatherInvalidMessages(formEl) {
-                var messages = [];
-                Array.prototype.forEach.call(formEl.elements, function(el){
-                    if (!el.willValidate) return;
-                    if (!el.checkValidity()) {
-                        var label = formEl.querySelector('label[for="'+el.id+'"]');
-                        var name = label ? label.textContent.trim() : (el.name || el.id);
-                        messages.push(name + ': ' + el.validationMessage);
-                    }
-                });
-                return messages;
-            }
-
-            form.addEventListener('submit', function(e){
-                // forzar validación personalizada antes de comprobar
-                validatePwd();
-
-                // validación sencilla y accesible
-                if (!form.checkValidity()) {
-                    e.preventDefault();
-                    var msgs = gatherInvalidMessages(form);
-                    showMessage(msgs.length ? msgs.join(' — ') : 'Formulario inválido.', false);
-                    var firstInvalid = form.querySelector(':invalid');
-                    if (firstInvalid) firstInvalid.focus();
-                    return;
-                }
-
-                // Formulario válido -> mostrar resultado (en desarrollo evitamos envío real)
-                e.preventDefault();
-                showMessage('Datos válidos. Envío simulado completado.', true);
-                // Si quieres permitir envío real, quita el preventDefault anterior.
-            });
-        })();
+})();
